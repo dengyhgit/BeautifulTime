@@ -1,0 +1,15 @@
+PODS:
+  - JMessage (2.2.3)
+  - YHPopupView (0.1.0)
+
+DEPENDENCIES:
+  - JMessage (~> 2.2.3)
+  - YHPopupView (~> 0.1.0)
+
+SPEC CHECKSUMS:
+  JMessage: 63ed6c178b426067bc752c86d0c4d3945ca8ab1d
+  YHPopupView: 4f056b0e88363ae2bd06cdaae2cb5f8310bc48fe
+
+PODFILE CHECKSUM: b0b55c960e6fd6a50e0fb4c6720f834203802da7
+
+COCOAPODS: 1.1.1
