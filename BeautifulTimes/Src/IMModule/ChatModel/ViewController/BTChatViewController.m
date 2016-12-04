@@ -15,7 +15,6 @@
 #import "BTChatMessageModel.h"
 #import "BTMessageFrameModel.h"
 #import "BTChatViewCell.h"
-#import "BTNetManager.h"
 #import "BTChatMoreView.h"
 #import "JCHATPhotoPickerViewController.h"
 #import "YHPopupView.h"

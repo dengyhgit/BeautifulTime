@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import <CoreLocation/CoreLocation.h>
 #import "Journal.h"
-#import "BTNetManager+BTAddJournal.h"
 #import "BTRecordViewController.h"
 #import "BTJournalController.h"
 #import "BTWeatherModel.h"
@@ -19,7 +18,7 @@
 #import "BTHomePageViewController.h"
 #import "UIView+BTAddition.h"
 #import "BTSelectPhotosViewController.h"
-
+#import "BTWeatherHttp.h"
 
 #define WeatherRootKey @"HeWeather data service 3.0"
 
@@ -165,7 +164,7 @@ static const CGFloat itemWidth = 70;
 //            NSString *country = [info objectForKey:@"Country"];
             [[NSUserDefaults standardUserDefaults] setObject:[self cutStr:city] forKey:currentCity];
             [[NSUserDefaults standardUserDefaults] setObject:[self cutStr:city] forKey:currentCountry];
-            [BTNetManager netManagerReqeustWeatherInfo:[self cutStr:city] successCallback:^(NSDictionary *retDict) {
+            [BTWeatherHttp reqeustWeatherInfo:[self cutStr:city] successCallback:^(NSDictionary *retDict) {
                 self.model.city = retDict[WeatherRootKey][0][@"basic"][@"city"];
                 self.model.pm25 = retDict[WeatherRootKey][0][@"aqi"][@"city"][@"pm25"];
                 self.model.updateTime = retDict[WeatherRootKey][0][@"basic"][@"update"][@"loc"];

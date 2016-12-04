@@ -55,7 +55,7 @@ static NSString * const st_receiveErrorMessageDes = @"接收消息错误";
 
 #define DownloadFileFinish  @"DownloadFileFinish"
 
-#define JMSSAGE_APPKEY @""
+#define JMSSAGE_APPKEY @"5855962950f6cd9eb62da7b8"
 #define CHANNEL @""
 #define kFriendInvitationNotification @"friendInvitationNotification"
 

@@ -1,15 +1,32 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - JMessage (2.2.3)
   - YHPopupView (0.1.0)
 
 DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
   - JMessage (~> 2.2.3)
   - YHPopupView (~> 0.1.0)
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   JMessage: 63ed6c178b426067bc752c86d0c4d3945ca8ab1d
   YHPopupView: 4f056b0e88363ae2bd06cdaae2cb5f8310bc48fe
 
-PODFILE CHECKSUM: b0b55c960e6fd6a50e0fb4c6720f834203802da7
+PODFILE CHECKSUM: dff83bcf8faa5a12fdf16537c283a10f1aba0cab
 
 COCOAPODS: 1.1.1
