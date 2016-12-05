@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
 #import "BTCoreDataHelper.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
@@ -25,5 +24,6 @@
 - (void)enterHomePage;
 
 -(UIViewController*)currentTopVc;
+
 @end
 

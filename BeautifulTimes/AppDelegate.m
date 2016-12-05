@@ -10,7 +10,6 @@
 #import "BTGuideViewController.h"
 #import "BTHomePageViewController.h"
 #import "BTBaseNavigationController.h"
-#import "BTBaseNavigationController.h"
 #import "BTHomePageViewController.h"
 #import "Journal.h"
 #import "BTIMTabBarController.h"
@@ -159,7 +158,6 @@ static AppDelegate *singleton = nil;
 }
 
 - (void)onReceiveNotificationEvent:(JMSGNotificationEvent *)event{
-//    NSLog(@"\n\n === Notification Event === \n\n event 1 =:%@ \n\n === Notification Event === \n",@(event.eventType));
     SInt32 eventType = (JMSGEventNotificationType)event.eventType;
     switch (eventType) {
         case kJMSGEventNotificationReceiveFriendInvitation:
@@ -167,21 +165,12 @@ static AppDelegate *singleton = nil;
         case kJMSGEventNotificationDeclinedFriendInvitation:
         case kJMSGEventNotificationDeletedFriend:
         {
-//            NSLog(@"Friend Notification Event ");
             [[NSNotificationCenter defaultCenter] postNotificationName:kFriendInvitationNotification object:event];
         }
             break;
         case kJMSGEventNotificationLoginKicked:
-//            NSLog(@"LoginKicked Notification Event ");
         case kJMSGEventNotificationServerAlterPassword:{
-            if (event.eventType == kJMSGEventNotificationServerAlterPassword) {
-//                NSLog(@"AlterPassword Notification Event ");
-            }
         case kJMSGEventNotificationUserLoginStatusUnexpected:
-            if (event.eventType == kJMSGEventNotificationUserLoginStatusUnexpected) {
-//                NSLog(@"User login status unexpected Notification Event ");
-            }
-            
             if (!alertView) {
                 alertView =[[UIAlertView alloc] initWithTitle:@"登录状态出错"
                                                       message:event.eventDescription

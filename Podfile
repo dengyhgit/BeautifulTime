@@ -8,6 +8,8 @@ target 'BeautifulTimes' do
   pod 'JMessage', '~> 2.2.3’
   pod ‘YHPopupView’, '~> 0.1.0’
   pod 'AFNetworking', '~> 3.1.0'
+  pod 'FMDB', '~> 2.6.2'
+  pod 'Masonry', '~> 1.0.2'
 
   # Pods for BeautifulTimes
 
