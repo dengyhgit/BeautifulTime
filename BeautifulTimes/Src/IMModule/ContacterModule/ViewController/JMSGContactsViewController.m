@@ -62,21 +62,25 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
     [self.view addSubview:self.tableview];
     
 }
--(void)setAddFriendBadgeValue:(NSString *)value{
-//    NSArray *tabBarItems = self.navigationController.tabBarController.tabBar.items;
-//    UITabBarItem *personCenterTabBarItem = [tabBarItems objectAtIndex:1];
-//    personCenterTabBarItem.badgeValue = value;//显示消息条数为 2
-}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     isCurrentVC = YES;
     [self setAddFriendBadgeValue:nil];
     [self getFriendData];
 }
+
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     isCurrentVC = NO;
 }
+
+-(void)setAddFriendBadgeValue:(NSString *)value{
+    //    NSArray *tabBarItems = self.navigationController.tabBarController.tabBar.items;
+    //    UITabBarItem *personCenterTabBarItem = [tabBarItems objectAtIndex:1];
+    //    personCenterTabBarItem.badgeValue = value;//显示消息条数为 2
+}
+
 #pragma mark - FriendInvitationNotification
 - (void)friendInvitiaonChangeNotification:(NSNotification *)notification{
     
@@ -162,6 +166,7 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
                     [modelArray addObject:model];
                 }
                 [_data removeAllObjects];
+                self.allData = modelArray;
                 _data = [self dictionaryOrderByCharacterWithOriginalArray:modelArray];
                 _keys = [NSMutableArray arrayWithArray:[_data allKeys]];
                 [_tableview reloadData];
@@ -250,15 +255,26 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
         cell = [[JMSGContacterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kcellContacterIndentifier];
     }
     
-    if (self.searchController.active) {
-        
-    }
+    
     cell.badgeIcon.hidden = YES;
+    
+    if (self.searchController.active) {
+        JMSGContactModel *model = self.searchList[indexPath.row];
+        cell.friendName.text = model.name;
+        [model.user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (data) {
+                cell.headIcon.image = [[UIImage alloc] initWithData:data];
+            }
+        }];
+        return cell;
+    }
+    
     if (indexPath.section == 0 && !self.isSharePhote) {
-        cell.friendName.text = indexPath.row==0?@"新朋友":@"群聊";
+        cell.friendName.text = indexPath.row == 0 ? @"新朋友" : @"群聊";
         if (indexPath.row == 0 && isHaveNewInvitation ) {
             cell.badgeIcon.hidden = NO;
         }
+        cell.headIcon.image = [UIImage imageNamed:@"headDefalt"];
     }
     else{
         NSString *key;
@@ -270,6 +286,11 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
         NSArray *arr = [self.data objectForKey:key];
         JMSGContactModel *model = arr[indexPath.row];
         cell.friendName.text = model.name;
+        [model.user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (data) {
+                cell.headIcon.image = [[UIImage alloc] initWithData:data];
+            }
+        }];
     }
     return cell;
 }
@@ -321,12 +342,26 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
         JMSGContactModel *model = arr[indexPath.row];
         NSData *imageData = UIImageJPEGRepresentation(self.sharePhoto, 0.5);
         [JMSGMessage sendSingleImageMessage:imageData toUser:model.user.username];
-//        [self dismissViewControllerAnimated:YES completion:nil];
         [MBProgressHUD showSuccess:@"分享成功" toView:self.view];
         [self.navigationController popViewControllerAnimated:YES];
         return ;
     }
     if (self.searchController.active) {
+        
+        JMSGChatViewController *chatVC = [[JMSGChatViewController alloc] init];
+        chatVC.hidesBottomBarWhenPushed = YES;
+        JMSGContactModel *model = self.searchList[indexPath.row];
+        // SDK：获取单聊会话
+        WS(weakSelf);
+        [JMSGConversation createSingleConversationWithUsername:model.user.username completionHandler:^(id resultObject, NSError *error) {
+            if (!error) {
+                JMSGConversation *conversation = (JMSGConversation *)resultObject;
+                chatVC.conversation = conversation;
+                weakSelf.searchController.active = NO;
+                [self.tableview reloadData];
+                [weakSelf.navigationController pushViewController:chatVC animated:YES];
+            }
+        }];
         
     } else {
         if (indexPath.section == 0) {
@@ -341,8 +376,6 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
             }
         }
         else{
-            
-            
             JMSGChatViewController *chatVC = [[JMSGChatViewController alloc] init];
             chatVC.hidesBottomBarWhenPushed = YES;
             NSInteger section = indexPath.section-1;
@@ -379,7 +412,7 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
 
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSString *searchString = [self.searchController.searchBar text];
-    NSPredicate *preicate = [NSPredicate predicateWithFormat:@"nickName CONTAINS[cd] %@", searchString];
+    NSPredicate *preicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString];
     if (self.searchList!= nil) {
         [self.searchList removeAllObjects];
     }
@@ -388,7 +421,6 @@ static NSString *kcellContacterIndentifier = @"contacterIndentifier";
 }
 
 #pragma mark - 联系人分类
-//将字符串数组按照元素首字母顺序进行排序分组
 - (NSMutableDictionary *)dictionaryOrderByCharacterWithOriginalArray:(NSArray *)array {
     if (array.count == 0) {
         return nil;

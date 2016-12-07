@@ -59,15 +59,15 @@
     //4.添加箭头
     UIButton *arrow=[[UIButton alloc]init];
     
-    CGFloat arrowW=20;
-    CGFloat arrowH=arrowW;
-    CGFloat arrowY=(self.height-arrowH)*0.5;
-    CGFloat arrowX=BT_SCREEN_WIDTH-arrowW-marginLeft;
-    arrow.frame=CGRectMake(arrowX, arrowY, arrowW, arrowH);
-    arrow.userInteractionEnabled=NO;
+    CGFloat arrowW = 20;
+    CGFloat arrowH = arrowW;
+    CGFloat arrowY = (self.height - arrowH) * 0.5;
+    CGFloat arrowX = BT_SCREEN_WIDTH - arrowW - marginLeft;
+    arrow.frame = CGRectMake(arrowX, arrowY, arrowW, arrowH);
+    arrow.userInteractionEnabled = NO;
     [arrow setImage:BT_LOADIMAGE(@"pay_arrowright") forState:UIControlStateNormal];
     [self addSubview:arrow];
-    self.arrow=arrow;
+    self.arrow = arrow;
 }
 
 //设置模型

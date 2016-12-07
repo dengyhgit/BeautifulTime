@@ -91,17 +91,17 @@
 }
 
 
--(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if(self.username.text.length != 0 && self.password.text.length != 0){
-        self.loginBtn.enabled=YES;
-    }
-    if(textField.text.length <= 1) {
-        self.loginBtn.enabled = NO;
-    }
-    
-    return YES;
-}
+//-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+//{
+//    if(self.username.text.length != 0 && self.password.text.length != 0){
+//        self.loginBtn.enabled = YES;
+//    }
+//    if(textField.text.length <= 4) {
+//        self.loginBtn.enabled = NO;
+//    }
+//    
+//    return YES;
+//}
 
 #pragma mark 点击注册的方法
 -(void)registerClick {
@@ -114,24 +114,39 @@
 {
     NSString *userName = [self.username.text trim];
     NSString *password = [self.password.text trim];
-    
     [self.view endEditing:YES];
-    [MBProgressHUD showMessage:@"正在登陆" toView:self.view];
-    [JMSGUser loginWithUsername:userName password:password completionHandler:^(id resultObject, NSError *error) {
-        if (!error) {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
-            [[NSUserDefaults standardUserDefaults] setValue:userName forKey:userID];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self enterHome];
-        } else {
-            BTMAINTHREAD(^{
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            });
-            [MBProgressHUD showMessage:[JMSGStringUtils errorAlert:error] view:self.view];
-        }
-       
-    }];
+    if ([self checkValidUsername:userName AndPassword:password]) {
+        [MBProgressHUD showMessage:@"正在登陆" toView:self.view];
+        [JMSGUser loginWithUsername:userName password:password completionHandler:^(id resultObject, NSError *error) {
+            if (!error) {
+                [MBProgressHUD hideAllHUDsForView:self.view animated:NO];
+                [[NSUserDefaults standardUserDefaults] setValue:userName forKey:userID];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self enterHome];
+            } else {
+                BTMAINTHREAD(^{
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                });
+                [MBProgressHUD showMessage:[JMSGStringUtils errorAlert:error] view:self.view];
+            }
+            
+        }];
+    }
+}
 
+- (BOOL)checkValidUsername:username AndPassword:password {
+    if (![password isEqualToString:@""] && ![username isEqualToString:@""]) {
+        return YES;
+    }
+    NSString *alert = @"用户名或者密码不合法.";
+    if ([username isEqualToString:@""]) {
+        alert =  @"用户名不能为空";
+    } else if ([password isEqualToString:@""]) {
+        alert = @"密码不能为空";
+    }
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [MBProgressHUD showMessage:alert view:self.view];
+    return NO;
 }
 
 #pragma mark 登录成功后进入主界面
@@ -149,7 +164,7 @@
 - (UIButton *)loginBtn {
     if (!_loginBtn) {
         _loginBtn = [[UIButton alloc] init];
-        _loginBtn.enabled=NO;
+//        _loginBtn.enabled=NO;
         [_loginBtn setBackgroundImage:[UIImage createImageWithColor:[[BTThemeManager getInstance] BTThemeColor:@"cl_btn_d"] andSize:CGSizeMake(BT_SCREEN_WIDTH - 2 * margin, textFieldHeight)] forState:UIControlStateNormal];
         [_loginBtn setBackgroundImage:[UIImage createImageWithColor:[[BTThemeManager getInstance] BTThemeColor:@"cl_press_d"] andSize:CGSizeMake(BT_SCREEN_WIDTH - 2 * margin, textFieldHeight)] forState:UIControlStateHighlighted];
         [_loginBtn setBackgroundImage:[UIImage createImageWithColor:[[BTThemeManager getInstance] BTThemeColor:@"cl_press_d"] andSize:CGSizeMake(BT_SCREEN_WIDTH - 2 * margin, textFieldHeight)] forState:UIControlStateDisabled];

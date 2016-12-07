@@ -83,7 +83,6 @@ static CGFloat const labelHeight = 20.0f;
 - (UILabel *)title {
     if (!_title) {
         _title = [[UILabel alloc] init];
-        _title.text = @"test data";
         _title.font = BT_FONTSIZE(14);
         _title.textAlignment = NSTextAlignmentCenter;
     }

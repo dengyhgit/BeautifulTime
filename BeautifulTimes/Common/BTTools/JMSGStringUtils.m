@@ -51,10 +51,10 @@ static NSString * const FORMAT_TODAY = @"ahh:mm";
             break;
             
         case kJMSGErrorSDKParamUsernameInvalid:
-            errorAlert = @"用户名不合法";
+            errorAlert = @"用户名长度少于4位或包含特殊字符";
             break;
         case kJMSGErrorSDKParamPasswordInvalid:
-            errorAlert = @"用户密码不合法";
+            errorAlert = @"用户密码长度少于4位或包含特殊字符";
             break;
         case kJMSGErrorSDKUserNotLogin:
             errorAlert = @"用户没有登录";

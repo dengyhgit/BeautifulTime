@@ -126,6 +126,7 @@ static const CGFloat itemWidth = 70;
     [self.locationManager requestAlwaysAuthorization];
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    [self.locationManager requestWhenInUseAuthorization];
     [self.locationManager startUpdatingLocation];
     
 }
