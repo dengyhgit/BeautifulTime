@@ -24,7 +24,7 @@
 
 static const CGFloat itemWidth = 70;
 
-@interface BTAddJournalViewController ()<UITextViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface BTAddJournalViewController ()<UITextViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, BTWeatherStatusViewDelegate>
 
 @property (nonatomic, strong) CLLocationManager* locationManager;
 @property (nonatomic, strong) UIView *toolsView;
@@ -277,6 +277,13 @@ static const CGFloat itemWidth = 70;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)tapWeatherStatusView {
+    BTWeatnerInfoViewController *weatherInfoVC = [[BTWeatnerInfoViewController alloc] init];
+    [self presentViewController:weatherInfoVC animated:YES completion:^{
+        
+    }];
+}
+
 #pragma mark 去掉市字
 -(NSString*)cutStr:(NSString*)str {
     NSArray *arr = [str componentsSeparatedByString:@"市"];
@@ -305,6 +312,7 @@ static const CGFloat itemWidth = 70;
 - (BTWeatherStatusVeiw *)weatherStatusView {
     if (!_weatherStatusView) {
         _weatherStatusView = [[BTWeatherStatusVeiw alloc] initWithFrame:CGRectMake(0, 0, itemWidth, itemWidth)];
+        _weatherStatusView.delegate = self;
     }
     return _weatherStatusView;
 }
@@ -325,7 +333,6 @@ static const CGFloat itemWidth = 70;
         _content.delegate = self;
         _content.backgroundColor = [UIColor clearColor];
         [_content setFont:BT_FONTSIZE(18)];
-//        [_content setBorderWithWidth:1 color:nil cornerRadius:6];
     }
     return _content;
 }

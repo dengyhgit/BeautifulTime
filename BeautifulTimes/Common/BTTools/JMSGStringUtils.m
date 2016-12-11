@@ -59,6 +59,9 @@ static NSString * const FORMAT_TODAY = @"ahh:mm";
         case kJMSGErrorSDKUserNotLogin:
             errorAlert = @"用户没有登录";
             break;
+        case kJMSGErrorSDKUserInvalidState:
+            errorAlert = @"用户已经登录，请退出后再尝试登录";
+            break;
         case kJMSGErrorSDKNotMediaMessage:
             errorAlert = @"这不是一条媒体消息";
             break;

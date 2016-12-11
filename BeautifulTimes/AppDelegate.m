@@ -14,6 +14,8 @@
 #import "Journal.h"
 #import "BTIMTabBarController.h"
 #import "BTUserLoginViewController.h"
+#import "BTAddTimelineViewController.h"
+#import "BTAddJournalViewController.h"
 
 static AppDelegate *singleton = nil;
 
@@ -69,6 +71,24 @@ static AppDelegate *singleton = nil;
     return YES;
 }
 
+// 3d touch
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    [self initPages];
+    
+    UINavigationController *nav = (UINavigationController *)self.window.rootViewController;
+    
+    if([shortcutItem.type isEqualToString:@"journal"]){
+        BTAddJournalViewController *vc = [[BTAddJournalViewController alloc] init];
+        [nav pushViewController:vc animated:NO];
+    }else if ([shortcutItem.type isEqualToString:@"timeline"]){
+        BTAddTimelineViewController *vc = [[BTAddTimelineViewController alloc] init];
+        [nav pushViewController:vc animated:NO];
+    } else {
+        BTIMTabBarController *tab = [[BTIMTabBarController alloc]init];
+        [nav pushViewController:tab animated:YES];
+    }
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     /// Required - 注册 DeviceToken
     [JPUSHService registerDeviceToken:deviceToken];
@@ -94,7 +114,6 @@ static AppDelegate *singleton = nil;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self cdh];
-//    [[self cdh] saveContext];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

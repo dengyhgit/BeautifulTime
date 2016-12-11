@@ -19,6 +19,7 @@ PODS:
   - FMDB/standard (2.6.2)
   - JMessage (2.2.3)
   - Masonry (1.0.2)
+  - SnapKit (3.0.2)
   - YHPopupView (0.1.0)
 
 DEPENDENCIES:
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - FMDB (~> 2.6.2)
   - JMessage (~> 2.2.3)
   - Masonry (~> 1.0.2)
+  - SnapKit (~> 3.0.2)
   - YHPopupView (~> 0.1.0)
 
 SPEC CHECKSUMS:
@@ -33,8 +35,9 @@ SPEC CHECKSUMS:
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   JMessage: 63ed6c178b426067bc752c86d0c4d3945ca8ab1d
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
   YHPopupView: 4f056b0e88363ae2bd06cdaae2cb5f8310bc48fe
 
-PODFILE CHECKSUM: ec4cc25b9bd2f63a0a51a73b4abf1c0f3075c053
+PODFILE CHECKSUM: d5edb543ffd380d2da13f1232619576e42ad98b9
 
 COCOAPODS: 1.1.1

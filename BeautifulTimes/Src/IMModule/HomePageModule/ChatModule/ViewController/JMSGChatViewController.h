@@ -15,7 +15,7 @@
 #import "XHVoiceRecordHelper.h"
 #import "JMSGMessageTableView.h"
 #import "JMSGMessageTableViewCell.h"
-#import "JCHATPhotoPickerViewController.h"
+#import "YHPhotoPickerViewController.h"
 
 #define interval 60 * 2
 #define navigationRightButtonRect CGRectMake(0, 0, 14, 17)
@@ -36,7 +36,7 @@ UIGestureRecognizerDelegate,
 UIAlertViewDelegate,
 JMessageDelegate,
 UIScrollViewDelegate,
-JCHATPhotoPickerViewControllerDelegate,
+YHPhotoPickerViewControllerDelegate,
 UITextViewDelegate,
 UIActionSheetDelegate>
 

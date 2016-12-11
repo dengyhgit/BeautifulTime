@@ -550,15 +550,18 @@
 
 #pragma mark -调用相册
 - (void)photoClick {
-    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
-    [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-        JCHATPhotoPickerViewController *photoPickerVC = [[JCHATPhotoPickerViewController alloc] init];
-        photoPickerVC.photoDelegate = self;
-        [self presentViewController:photoPickerVC animated:YES completion:NULL];
-    } failureBlock:^(NSError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有相册权限" message:@"请到设置页面获取相册权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-    }];
+//    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+//    [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+//        JCHATPhotoPickerViewController *photoPickerVC = [[JCHATPhotoPickerViewController alloc] init];
+//        photoPickerVC.photoDelegate = self;
+//        [self presentViewController:photoPickerVC animated:YES completion:NULL];
+//    } failureBlock:^(NSError *error) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有相册权限" message:@"请到设置页面获取相册权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//        [alertView show];
+//    }];
+    YHPhotoPickerViewController *photoPickerVC = [[YHPhotoPickerViewController alloc] init];
+    photoPickerVC.pickerDelegate = self;
+    [self presentViewController:photoPickerVC animated:YES completion:NULL];
 }
 
 #pragma mark --调用相机
@@ -604,8 +607,17 @@
 }
 
 #pragma mark - HMPhotoPickerViewController Delegate
-- (void)JCHATPhotoPickerViewController:(JCHATPhotoSelectViewController *)PhotoPickerVC selectedPhotoArray:(NSArray *)selected_photo_array {
-    for (UIImage *image in selected_photo_array) {
+//- (void)JCHATPhotoPickerViewController:(JCHATPhotoSelectViewController *)PhotoPickerVC selectedPhotoArray:(NSArray *)selected_photo_array {
+//    for (UIImage *image in selected_photo_array) {
+//        [self prepareImageMessage:image];
+//    }
+//    [self dropToolBarNoAnimate];
+//}
+
+- (void)YHPhotoPickerViewController:(YHSelectPhotoViewController *)PhotoPickerViewController selectedPhotos:(NSArray *)photos {
+    for (UIImage *image in photos) {
+        NSData *data = UIImagePNGRepresentation(image);
+        NSLog(@"%lu",(unsigned long)data.length);
         [self prepareImageMessage:image];
     }
     [self dropToolBarNoAnimate];

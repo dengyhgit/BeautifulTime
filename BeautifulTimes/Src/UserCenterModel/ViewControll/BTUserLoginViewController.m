@@ -128,8 +128,12 @@
                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 });
                 [MBProgressHUD showMessage:[JMSGStringUtils errorAlert:error] view:self.view];
+                if (error.code == kJMSGErrorSDKUserInvalidState) {
+                    [[NSUserDefaults standardUserDefaults] setValue:userName forKey:userID];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    [self enterHome];
+                }
             }
-            
         }];
     }
 }

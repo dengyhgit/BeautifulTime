@@ -16,7 +16,6 @@
 #import "BTMessageFrameModel.h"
 #import "BTChatViewCell.h"
 #import "BTChatMoreView.h"
-#import "JCHATPhotoPickerViewController.h"
 #import "YHPopupView.h"
 
 static CGFloat const KEYBOARDWIDTH = 216.0f;
@@ -29,8 +28,7 @@ static CGFloat const CHATTOOLVIEWHEIGHT = 49.0f;
     ChatToolViewDelegate,
     AddBtnDelegate,
     UIImagePickerControllerDelegate,
-    UINavigationControllerDelegate,
-    JCHATPhotoPickerViewControllerDelegate>
+    UINavigationControllerDelegate>
 {
     BOOL isFirstLoad ;
 }
@@ -447,15 +445,15 @@ static CGFloat const CHATTOOLVIEWHEIGHT = 49.0f;
 
 #pragma mark -调用相册
 - (void)photoClick {
-    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
-    [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-        JCHATPhotoPickerViewController *photoPickerVC = [[JCHATPhotoPickerViewController alloc] init];
-        photoPickerVC.photoDelegate = self;
-        [self presentViewController:photoPickerVC animated:YES completion:NULL];
-    } failureBlock:^(NSError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有相册权限" message:@"请到设置页面获取相册权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-    }];
+//    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+//    [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+//        JCHATPhotoPickerViewController *photoPickerVC = [[JCHATPhotoPickerViewController alloc] init];
+//        photoPickerVC.photoDelegate = self;
+//        [self presentViewController:photoPickerVC animated:YES completion:NULL];
+//    } failureBlock:^(NSError *error) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有相册权限" message:@"请到设置页面获取相册权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//        [alertView show];
+//    }];
 }
 
 #pragma mark --调用相机
@@ -476,11 +474,11 @@ static CGFloat const CHATTOOLVIEWHEIGHT = 49.0f;
 }
 
 #pragma mark - HMPhotoPickerViewController Delegate
-- (void)JCHATPhotoPickerViewController:(JCHATPhotoSelectViewController *)PhotoPickerVC selectedPhotoArray:(NSArray *)selected_photo_array {
-    for (UIImage *image in selected_photo_array) {
-        [self.conversation sendImageMessage:UIImageJPEGRepresentation(image, 0.8)];
-    }
-}
+//- (void)JCHATPhotoPickerViewController:(JCHATPhotoSelectViewController *)PhotoPickerVC selectedPhotoArray:(NSArray *)selected_photo_array {
+//    for (UIImage *image in selected_photo_array) {
+//        [self.conversation sendImageMessage:UIImageJPEGRepresentation(image, 0.8)];
+//    }
+//}
 
 #pragma mark - UIImagePickerController Delegate
 //相机,相册Finish的代理

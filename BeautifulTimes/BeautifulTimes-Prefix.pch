@@ -28,4 +28,5 @@
 #import "JMSGStringUtils.h"
 #import "JMSGViewUtil.h"
 #import <AFNetworking/AFNetworking.h>
+#import "BeautifulTimes-Swift.h"
 #endif
