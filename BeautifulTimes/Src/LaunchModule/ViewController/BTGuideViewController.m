@@ -19,7 +19,6 @@
 
 @implementation BTGuideViewController
 {
-    UIPageControl *pageControl;
     UIButton *backButton;
 }
 
@@ -46,7 +45,6 @@
 {
     [super viewDidDisappear:animated];
     
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -63,7 +61,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillLayoutSubviews
@@ -82,9 +79,9 @@
     self.guideScrollView.backgroundColor = BT_CLEARCOLOR;
     self.guideScrollView.showsHorizontalScrollIndicator = NO;
     self.guideScrollView.showsVerticalScrollIndicator = NO;
-    self.guideScrollView.contentSize = CGSizeMake(BT_SCREEN_WIDTH * 4, BT_SCREEN_HEIGHT - 100);
+    self.guideScrollView.contentSize = CGSizeMake(BT_SCREEN_WIDTH * 3, BT_SCREEN_HEIGHT - 100);
     self.guideScrollView.pagingEnabled = YES;
-    for (int i = 0; i<4; i++) {
+    for (int i = 0; i < 3; i++) {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i * BT_SCREEN_WIDTH, 0, BT_SCREEN_WIDTH, BT_SCREEN_HEIGHT)];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         switch (i) {
@@ -100,27 +97,10 @@
                 break;
             case 2:
             {
-                imageView.image = BT_UIIMAGE(@"guide_3.jpg");
-            }
-                break;
-            case 3:
-            {
-                imageView.image = BT_UIIMAGE(@"guide_4");
-                // UIImageView上添加按钮点击事件无效，需要设置imageView的userInteractionEnabled属性
+                imageView.image = BT_UIIMAGE(@"guide_3");
                 imageView.userInteractionEnabled = YES;
-                UIImage *enterHomeImage = BT_UIIMAGE(@"enterHome");
-                self.enterHomeButton.frame = CGRectMake(0, 0, enterHomeImage.size.width, enterHomeImage.size.height);
-                
-                if (BT_SCREEN_HEIGHT == 375) {
-                    self.enterHomeButton.center = CGPointMake(BT_SCREEN_WIDTH/2, BT_SCREEN_HEIGHT - (114+50)/2);
-                }
-                else if (BT_SCREEN_HEIGHT == 414) {
-                    self.enterHomeButton.center = CGPointMake(BT_SCREEN_WIDTH/2, BT_SCREEN_HEIGHT - (192+76)/2);
-                }
-                else {
-                    self.enterHomeButton.center = CGPointMake(BT_SCREEN_WIDTH/2, BT_SCREEN_HEIGHT - (98+48)/2);
-                }
-                [self.enterHomeButton setImage:enterHomeImage forState:UIControlStateNormal];
+                self.enterHomeButton.frame = CGRectMake(0, self.view.height * 0.83, self.view.width / 3, self.view.height * 0.075);
+                self.enterHomeButton.centerX = self.view.centerX;
                 [self.enterHomeButton addTarget:self action:@selector(enterHome) forControlEvents:UIControlEventTouchUpInside];
                 [imageView addSubview:self.enterHomeButton];
             }
@@ -134,17 +114,6 @@
     }
     
     [self.view addSubview:self.guideScrollView];
-    
-    pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, BT_SCREEN_HEIGHT - 80, BT_SCREEN_WIDTH, 30)];
-    pageControl.numberOfPages = 4;
-    pageControl.currentPage = 0;
-    [pageControl addTarget:self action:@selector(pageTurn:) forControlEvents:UIControlEventValueChanged];
-    backButton = [[UIButton alloc] initWithFrame:CGRectMake(16, 20, 32, 32)];
-    backButton.exclusiveTouch = YES;
-    [backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backButton];
-    
-    backButton.hidden = ![[NSUserDefaults standardUserDefaults] boolForKey:firstLaunch];
 }
 
 #pragma mark - getter
@@ -164,23 +133,6 @@
     }
     
     return _guideScrollView;
-}
-
-
-#pragma mark - UIScrollView Delegate
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    CGPoint offset = scrollView.contentOffset;
-    CGRect bounds = scrollView.frame;
-    
-    [pageControl setCurrentPage:offset.x / bounds.size.width];
-}
-
-- (void)pageTurn:(UIPageControl *)sender
-{
-    CGSize viewSize = self.guideScrollView.frame.size;
-    CGRect rect = CGRectMake(sender.currentPage * viewSize.width, 0, viewSize.width, viewSize.height);
-    [self.guideScrollView scrollRectToVisible:rect animated:YES];
 }
 
 - (void)backButtonClick

@@ -40,7 +40,7 @@
     CGSize imageSize = CGSizeMake(self.frame.size.width * scale / 2, self.frame.size.width * scale / 2);
     [model.cachingManager requestImageForAsset:asset
                                     targetSize:imageSize
-                                   contentMode:PHImageContentModeAspectFill
+                                   contentMode:PHImageContentModeAspectFill 
                                        options:nil
                                  resultHandler:^(UIImage *result, NSDictionary *info) {
                                      if ([_thumbImageModel.photoAsset.localIdentifier isEqualToString:asset.localIdentifier]) {

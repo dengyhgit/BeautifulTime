@@ -20,9 +20,9 @@ static CGFloat const chatToolViewHeight = 49;
 
 @interface BTChatToolView ()
 
-@property (nonatomic,weak) UIButton *audioButton;  //语音按钮
-@property (nonatomic,weak) UIButton *faceButton; //表情按钮
-@property (nonatomic,weak) UIButton *addButton;  //发送图片的按钮
+@property (nonatomic,weak) UIButton *audioButton;
+@property (nonatomic,weak) UIButton *faceButton;
+@property (nonatomic,weak) UIButton *addButton;
 
 @end
 

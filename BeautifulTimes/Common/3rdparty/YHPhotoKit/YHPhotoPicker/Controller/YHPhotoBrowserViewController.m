@@ -302,7 +302,7 @@ static NSString *CellIdentifier = @"YHPhotoBrowserCollectionViewCell";
 - (UIView *)topBar {
     if (!_topBar) {
         _topBar = [[UIView alloc] init];
-        _topBar.backgroundColor = [[UIColor alloc] initWithRed:1 green:1 blue:1 alpha:0.15];
+        _topBar.backgroundColor = [[UIColor alloc] initWithWhite:0.9 alpha:0.1];
     }
     return _topBar;
 }
@@ -310,7 +310,7 @@ static NSString *CellIdentifier = @"YHPhotoBrowserCollectionViewCell";
 - (UIView *)bottomBar {
     if (!_bottomBar) {
         _bottomBar = [[UIView alloc] init];
-        _bottomBar.backgroundColor = [[UIColor alloc] initWithRed:1 green:1 blue:1 alpha:0.15];
+        _bottomBar.backgroundColor = [[UIColor alloc] initWithWhite:0.9 alpha:0.1];
     }
     return _bottomBar;
 }

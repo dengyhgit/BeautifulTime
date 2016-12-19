@@ -30,3 +30,11 @@
 
 @end
 
+@interface YHCachingImageManager : NSObject
+
++ (instancetype)getInstance;
+
+@property(nonatomic, strong) PHCachingImageManager *imageManager;
+
+@end
+

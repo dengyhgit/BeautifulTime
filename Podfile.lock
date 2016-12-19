@@ -20,7 +20,16 @@ PODS:
   - JMessage (2.2.3)
   - Masonry (1.0.2)
   - SnapKit (3.0.2)
-  - YHPopupView (0.1.0)
+  - UMengUShare/Core (6.1.1):
+    - UMengUShare/Network
+  - UMengUShare/Network (6.1.1)
+  - UMengUShare/Social/QQ (6.1.1):
+    - UMengUShare/Core
+  - UMengUShare/Social/WeChat (6.1.1):
+    - UMengUShare/Core
+  - UMengUShare/UI (6.1.1):
+    - UMengUShare/Core
+  - YHPopupView (0.2.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
@@ -28,7 +37,10 @@ DEPENDENCIES:
   - JMessage (~> 2.2.3)
   - Masonry (~> 1.0.2)
   - SnapKit (~> 3.0.2)
-  - YHPopupView (~> 0.1.0)
+  - UMengUShare/Social/QQ
+  - UMengUShare/Social/WeChat
+  - UMengUShare/UI
+  - YHPopupView
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -36,8 +48,9 @@ SPEC CHECKSUMS:
   JMessage: 63ed6c178b426067bc752c86d0c4d3945ca8ab1d
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
-  YHPopupView: 4f056b0e88363ae2bd06cdaae2cb5f8310bc48fe
+  UMengUShare: 0a80f54ee06f71f3de7c57764c36339e8bf9b7e7
+  YHPopupView: be92948e4a6da96ee6dbfa67d7f179fb44f5b0a3
 
-PODFILE CHECKSUM: d5edb543ffd380d2da13f1232619576e42ad98b9
+PODFILE CHECKSUM: 0d724d84922c4acdbeeb6c153a8565cdc27c998c
 
 COCOAPODS: 1.1.1

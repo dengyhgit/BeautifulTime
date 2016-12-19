@@ -16,12 +16,15 @@
 #import "BTUserLoginViewController.h"
 #import "BTAddTimelineViewController.h"
 #import "BTAddJournalViewController.h"
+#import "BTPopupMessageView.h"
 
 static AppDelegate *singleton = nil;
 
-@interface AppDelegate () <JMessageDelegate>{
+@interface AppDelegate () <JMessageDelegate, YHMessageViewDelegate> {
     UIAlertView *alertView;
 }
+
+@property(nonatomic, strong) BTPopupMessageView *messageView;
 
 @end
 
@@ -42,10 +45,7 @@ static AppDelegate *singleton = nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [JMessage setLogOFF];
-//    [JMessage setDebugMode];
-    
     [JMessage addDelegate:self withConversation:nil];
-    
     [JMessage setupJMessage:launchOptions
                      appKey:JMSSAGE_APPKEY
                     channel:CHANNEL
@@ -59,15 +59,16 @@ static AppDelegate *singleton = nil;
     
     [self registerJPushStatusNotification];
     
-    
     singleton = self;
-//    if (![[NSUserDefaults standardUserDefaults] boolForKey:firstLaunch]) {
-//        [self enterGuidePage];
-//    }
-//    else {
-//        [self enterHomePage];
-//    }
-    [self enterHomePage];
+    [self initTheme];
+
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:firstLaunch]) {
+        [self enterGuidePage];
+    }
+    else {
+        [self enterHomePage];
+    }
+    
     return YES;
 }
 
@@ -128,7 +129,6 @@ static AppDelegate *singleton = nil;
     BTBaseNavigationController *homeNavigationController = [[BTBaseNavigationController alloc] initWithRootViewController:homeViewController];
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController.view.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = homeNavigationController;
     [self.window makeKeyAndVisible];
 }
@@ -143,8 +143,7 @@ static AppDelegate *singleton = nil;
     [self.window makeKeyAndVisible];
 }
 
-//进入首页
-- (void)enterHomePage {
+- (void)initTheme {
     NSNumber *themeType = [[NSUserDefaults standardUserDefaults] objectForKey:@"BTThemeType"];
     if (themeType == nil) {
         themeType = [NSNumber numberWithInt:BTThemeType_BT_BLUE];
@@ -153,14 +152,25 @@ static AppDelegate *singleton = nil;
     else {
         [[BTThemeManager getInstance] setThemeStyle:(BTThemeType)themeType.longValue];
     }
+}
+
+//进入首页
+- (void)enterHomePage {
     [self initPages];
 }
 
 -(UIViewController*)currentTopVc
 {
-    UINavigationController* VC = self.window.rootViewController.navigationController;
-    UIViewController* topVC = VC.topViewController;
-    return topVC;
+    if ([self.window.rootViewController isKindOfClass:[BTBaseNavigationController class]]) {
+        BTBaseNavigationController* VC = (BTBaseNavigationController *)self.window.rootViewController;
+        UIViewController* topVC = VC.topViewController;
+        if ([topVC isKindOfClass:[BTIMTabBarController class]]) {
+            return nil;
+        }
+        return topVC;
+    } else {
+        return nil;
+    }
 }
 
 - (void)registerJPushStatusNotification {
@@ -173,7 +183,27 @@ static AppDelegate *singleton = nil;
 
 #pragma mark notification from JPush
 - (void)receivePushMessage:(NSNotification *)notification {
+    
+}
 
+#pragma mark alertview delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:userID];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    BTHomePageViewController *vc = [[BTHomePageViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    BTBaseNavigationController *navLogin = [[BTBaseNavigationController alloc] initWithRootViewController:vc];
+    self.window.rootViewController = navLogin;
+    return;
+}
+
+#pragma mark JMessage Delegate
+- (void)onReceiveMessage:(JMSGMessage *)message error:(NSError *)error {
+    if (message.contentType != kJMSGContentTypeEventNotification && [self currentTopVc]) {
+        [self.messageView bindMessage:message];
+        [[self currentTopVc] presentMessageView:self.messageView];
+        self.messageView = nil;
+    }
 }
 
 - (void)onReceiveNotificationEvent:(JMSGNotificationEvent *)event{
@@ -206,17 +236,21 @@ static AppDelegate *singleton = nil;
     
 }
 
+#pragma mark yhmessageview delegate
+- (void)tapMessageView:(YHMessageView *)messageView {
+    BTIMTabBarController *tab = [[BTIMTabBarController alloc]init];
+    self.window.rootViewController = tab;
+}
 
-#pragma mark alertview delegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:userID];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    BTHomePageViewController *vc = [[BTHomePageViewController alloc] init];
-    vc.hidesBottomBarWhenPushed = YES;
-    BTBaseNavigationController *navLogin = [[BTBaseNavigationController alloc] initWithRootViewController:vc];
-    self.window.rootViewController = navLogin;
-    self.window.rootViewController = navLogin;
-    return;
+#pragma mark stter 
+- (BTPopupMessageView *)messageView {
+    if (!_messageView) {
+        _messageView = [[BTPopupMessageView alloc] initWithFrame:CGRectMake(0, 0, BT_SCREEN_WIDTH, 58)];
+        _messageView.backgroundColor = [[UIColor alloc] initWithWhite:0 alpha:0.7];
+        _messageView.delegate = self;
+        _messageView.showTime = 5;
+    }
+    return _messageView;
 }
 
 @end

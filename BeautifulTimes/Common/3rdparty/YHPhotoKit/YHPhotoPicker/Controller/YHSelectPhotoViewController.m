@@ -14,6 +14,30 @@
 #define kYHToolBarHeight 45
 static NSString *kcellIdentifier = @"kYHSelectPhotosCell";
 
+static YHCachingImageManager *imageManager;
+
+@implementation YHCachingImageManager
+
++ (instancetype)getInstance {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        imageManager = [[YHCachingImageManager alloc] init];
+    });
+    
+    return imageManager;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _imageManager = [[PHCachingImageManager alloc] init];
+    }
+    return self;
+}
+
+@end
+
 @interface YHSelectPhotoViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout> {
     PHCachingImageManager *_imageManager;
     NSMutableDictionary *_selectedPhotos;

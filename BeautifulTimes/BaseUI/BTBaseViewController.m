@@ -9,7 +9,7 @@
 #import "BTBaseViewController.h"
 #import "BTThemeManager.h"
 
-#define baseHeaderViewHeight        48
+#define baseHeaderViewHeight        58
 #define BACKBUTTONWIDTH             48
 
 @interface BTBaseViewController ()<BTThemeListenerProtocol>
@@ -48,18 +48,18 @@
     
     [self.view addSubview:self.headerView];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:self.headerView.bounds];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.headerView.x, self.headerView.y + 6, self.headerView.width, self.headerView.height)];
     self.titleLabel.backgroundColor = BT_CLEARCOLOR;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.font = BT_FONTSIZE(22);
     [self.headerView addSubview:self.titleLabel];
     
-    self.finishButton = [[UIButton alloc] initWithFrame:CGRectMake(BT_SCREEN_WIDTH - BACKBUTTONWIDTH - 10, 0, BACKBUTTONWIDTH, BACKBUTTONWIDTH)];
+    self.finishButton = [[UIButton alloc] initWithFrame:CGRectMake(BT_SCREEN_WIDTH - BACKBUTTONWIDTH - 10, 10, BACKBUTTONWIDTH, BACKBUTTONWIDTH)];
     self.finishButton.exclusiveTouch = YES;
     [self.finishButton addTarget:self action:@selector(finishButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:self.finishButton];
     
-    self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, BACKBUTTONWIDTH, BACKBUTTONWIDTH)];
+    self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, BACKBUTTONWIDTH, BACKBUTTONWIDTH)];
     self.backButton.exclusiveTouch = YES;
     [self.backButton addTarget:self action:@selector(backButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.headerView addSubview:self.backButton];
@@ -155,16 +155,16 @@
  */
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
     //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
     //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
 }
 
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES; //返回NO表示要显示，返回YES将hiden    默认隐藏
-}
+//- (BOOL)prefersStatusBarHidden
+//{
+//    return YES; //返回NO表示要显示，返回YES将hiden    默认隐藏
+//}
 
 - (UIImageView *)headViewImage {
     if (!_headViewImage) {

@@ -10,9 +10,9 @@
 #import "BTSendTextView.h"
 
 typedef enum{
-    ChatToolViewTypeEmotion, //表情按钮
-    ChatToolViewTypeAddPicture, //图片按钮
-    ChatToolViewTypeAudio, //语音按钮
+    ChatToolViewTypeEmotion,
+    ChatToolViewTypeAddPicture, 
+    ChatToolViewTypeAudio,
     
 }ChatToolViewType;
 
@@ -22,9 +22,7 @@ typedef enum{
 
 @property (nonatomic,weak) BTSendTextView *toolInputView;
 @property (nonatomic,weak) id <ChatToolViewDelegate> delegate;
-//表情按钮的选中状态
 @property (assign,nonatomic) BOOL emotionStatus;
-//添加图片按钮的选中状态
 @property (assign,nonatomic) BOOL addStatus;
 
 @end
