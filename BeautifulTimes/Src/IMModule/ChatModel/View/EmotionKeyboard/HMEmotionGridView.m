@@ -148,7 +148,7 @@
 - (void)selecteEmotion:(HMEmotion *)emotion
 {
     if (emotion == nil) return;
-#warning 注意：先添加使用的表情，再发通知
+//#warning 注意：先添加使用的表情，再发通知
     // 保存使用记录
     [HMEmotionTool addRecentEmotion:emotion];
     

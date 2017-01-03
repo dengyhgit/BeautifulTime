@@ -5,15 +5,13 @@ target 'BeautifulTimes' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   use_frameworks!
 
-  pod 'JMessage', '~> 2.2.3’
+  pod 'JMessage', '~> 2.2.4’
   pod ‘YHPopupView’
   pod 'AFNetworking', '~> 3.1.0'
   pod 'FMDB', '~> 2.6.2'
   pod 'Masonry', '~> 1.0.2'
   pod 'SnapKit', '~> 3.0.2'
-  pod ‘UMengUShare/UI’
-  pod ‘UMengUShare/Social/WeChat'
-  pod ‘UMengUShare/Social/QQ'
+  pod 'RegexKitLite', '~> 4.0'
 
   # Pods for BeautifulTimes
 

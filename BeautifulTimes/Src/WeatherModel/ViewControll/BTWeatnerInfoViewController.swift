@@ -13,7 +13,10 @@ class BTWeatnerInfoViewController: UIViewController {
     
     private var closeButton: UIButton!
     private var backgroundImageView: UIImageView!
-    private var  temperatureLaber: UILabel!
+    private var temperatureLaber: UILabel!
+    private var locationIcon: UIImageView!
+    private var cityLaber: UILabel!
+    private var refreshButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,9 +25,16 @@ class BTWeatnerInfoViewController: UIViewController {
         prepareCloseButton()
         prepareBackgroundImage()
         prepareTemperatureLaber()
+        prepareLocationIcon()
+        prepareCityLabel()
+        prepareRefreshButton()
     
         self.view.addSubview(self.backgroundImageView)
         self.view.addSubview(self.closeButton)
+        self.view.addSubview(self.temperatureLaber)
+        self.view.addSubview(self.locationIcon)
+        self.view.addSubview(self.cityLaber)
+        self.view.addSubview(self.refreshButton)
     }
     
     override func viewWillLayoutSubviews() {
@@ -35,6 +45,12 @@ class BTWeatnerInfoViewController: UIViewController {
             make.width.equalTo(36)
             make.height.equalTo(36)
             make.centerX.equalTo(self.view)
+        }
+        self.temperatureLaber.snp.makeConstraints { (make) in
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(self.view).offset(self.view.frame.size.height / 4);
+            make.width.equalTo(self.view)
+            make.height.equalTo(70)
         }
     }
 
@@ -58,7 +74,23 @@ class BTWeatnerInfoViewController: UIViewController {
     }
     
     private func prepareTemperatureLaber() {
-        
+        temperatureLaber = UILabel.init()
+        temperatureLaber.text = "23°"
+        temperatureLaber.textColor = UIColor.white
+        temperatureLaber.textAlignment = .center
+        temperatureLaber.font = UIFont.systemFont(ofSize: 65)
+    }
+    
+    private func prepareLocationIcon() {
+        locationIcon = UIImageView.init()
+    }
+    
+    private func prepareCityLabel() {
+        cityLaber = UILabel.init()
+    }
+    
+    private func prepareRefreshButton() {
+        refreshButton = UIButton.init()
     }
     
     // MARK: - click event
@@ -66,6 +98,18 @@ class BTWeatnerInfoViewController: UIViewController {
         self .dismiss(animated: true) { 
             
         }
+    }
+    
+    func refreshWeatherInfo() {
+    
+    }
+    
+    public func bindData(data: BTWeatherModel) {
+    
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 
 }

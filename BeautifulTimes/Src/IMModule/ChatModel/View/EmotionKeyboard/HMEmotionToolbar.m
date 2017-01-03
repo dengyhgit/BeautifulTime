@@ -123,7 +123,7 @@
     
     // 2.通知代理
     if ([self.delegate respondsToSelector:@selector(emotionToolbar:didSelectedButton:)]) {
-        [self.delegate emotionToolbar:self didSelectedButton:button.tag];
+        [self.delegate emotionToolbar:self didSelectedButton:(HMEmotionType)button.tag];
     }
 }
 

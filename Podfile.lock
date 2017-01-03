@@ -17,40 +17,30 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - JMessage (2.2.3)
+  - JMessage (2.2.4)
   - Masonry (1.0.2)
+  - RegexKitLite (4.0)
   - SnapKit (3.0.2)
-  - UMengUShare/Core (6.1.1):
-    - UMengUShare/Network
-  - UMengUShare/Network (6.1.1)
-  - UMengUShare/Social/QQ (6.1.1):
-    - UMengUShare/Core
-  - UMengUShare/Social/WeChat (6.1.1):
-    - UMengUShare/Core
-  - UMengUShare/UI (6.1.1):
-    - UMengUShare/Core
   - YHPopupView (0.2.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - FMDB (~> 2.6.2)
-  - JMessage (~> 2.2.3)
+  - JMessage (~> 2.2.4)
   - Masonry (~> 1.0.2)
+  - RegexKitLite (~> 4.0)
   - SnapKit (~> 3.0.2)
-  - UMengUShare/Social/QQ
-  - UMengUShare/Social/WeChat
-  - UMengUShare/UI
   - YHPopupView
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  JMessage: 63ed6c178b426067bc752c86d0c4d3945ca8ab1d
+  JMessage: f520035ab695306629ef8261923d9ee60fd69dc6
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
-  UMengUShare: 0a80f54ee06f71f3de7c57764c36339e8bf9b7e7
   YHPopupView: be92948e4a6da96ee6dbfa67d7f179fb44f5b0a3
 
-PODFILE CHECKSUM: 0d724d84922c4acdbeeb6c153a8565cdc27c998c
+PODFILE CHECKSUM: 865726621f7c199242311b3ce8c253269801fc45
 
 COCOAPODS: 1.1.1

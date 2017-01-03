@@ -69,6 +69,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    NSLog(@"----------------------viewWillDisappear-----------------------");
     [super viewWillDisappear:animated];
     [_conversation clearUnreadCount];
     [[JMSGAudioPlayerHelper shareInstance] stopAudio];

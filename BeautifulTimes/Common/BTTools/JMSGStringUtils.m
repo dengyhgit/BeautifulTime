@@ -266,10 +266,8 @@ static NSString * const FORMAT_TODAY = @"ahh:mm";
     NSString *tempStr2 = [tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     NSString *tempStr3 = [[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
     NSData *tempData = [tempStr3 dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *str = [NSPropertyListSerialization propertyListFromData:tempData
-                                                     mutabilityOption:NSPropertyListImmutable
-                                                               format:NULL
-                                                     errorDescription:NULL];
+    NSString *str = [NSPropertyListSerialization propertyListWithData:tempData options:NSPropertyListImmutable format:NULL error:NULL];
+    
     return str;
 }
 

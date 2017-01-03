@@ -19,5 +19,6 @@
 @property (nonatomic, strong) NSString *dayWeatherIcon;
 @property (nonatomic, strong) NSString *nightWeatherIcon;
 
+- (void)bindDat:(id)data;
 
 @end

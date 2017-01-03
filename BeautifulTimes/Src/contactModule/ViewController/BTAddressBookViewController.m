@@ -16,16 +16,11 @@ static NSString *kAddressBookIndentifier = @"kAddressBookIndentifier";
 
 @interface BTAddressBookViewController ()<UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic,strong) NSMutableArray *keys;//存放所有标示图分区的键
-//定义一个字典的集合  用来存贮联系人名字拼音的首字母相同的人   一个键可以对应多个值
+@property (nonatomic,strong) NSMutableArray *keys;
 @property (strong,nonatomic)NSMutableDictionary *data;
-//定义好友的键
 @property (nonatomic,strong) NSMutableArray *otherKey;
-
 @property (nonatomic, strong) UITableView *tableview;
-
 @property (nonatomic, strong) NSMutableDictionary *contactSource;
-
 @property (nonatomic, strong) NSMutableDictionary *flageArray;
 
 @end

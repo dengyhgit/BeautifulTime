@@ -16,7 +16,7 @@
 {
     NSDateFormatter *fmt = [[NSDateFormatter alloc]init];
     fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-#warning 真机调试 必须加上这句
+//#warning 真机调试 必须加上这句
     fmt.locale = [[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
     NSDate *creatDate = [fmt dateFromString:_time];
     

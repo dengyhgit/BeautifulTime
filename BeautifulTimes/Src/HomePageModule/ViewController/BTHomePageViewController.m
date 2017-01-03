@@ -367,26 +367,13 @@ static const CGFloat BUTTONWIDTH = 48;
 - (UIImageView *)backgroundImageView {
     if (!_backgroundImageView) {
         _backgroundImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        
-        if (BT_47INCH_SCREEN) {
-            _backgroundImageView.image = [[BTThemeManager getInstance] loadImageInBlueThemeWithName:@"ic_bg_main_1242x2208"];
-        }
-        else if (BT_55INCH_SCREEN) {
-            _backgroundImageView.image = [[BTThemeManager getInstance] loadImageInBlueThemeWithName:@"ic_bg_main_750x1334"];
-        }
-        else {
-            _backgroundImageView.image = [[BTThemeManager getInstance] loadImageInBlueThemeWithName:@"ic_bg_main_640x960"];
-        }
-        
+        _backgroundImageView.image = [[BTThemeManager getInstance] loadImageInBlueThemeWithName:@"ic_bg_main_1242x2208"];
     }
     return _backgroundImageView;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleDefault;
-    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
-    //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
 }
 
 @end

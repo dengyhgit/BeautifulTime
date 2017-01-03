@@ -17,6 +17,8 @@
 #import "BTAddTimelineViewController.h"
 #import "BTAddJournalViewController.h"
 #import "BTPopupMessageView.h"
+#import <UMSocialCore/UMSocialCore.h>
+
 
 static AppDelegate *singleton = nil;
 
@@ -61,6 +63,9 @@ static AppDelegate *singleton = nil;
     
     singleton = self;
     [self initTheme];
+    
+    [[UMSocialManager defaultManager] setUmSocialAppkey:@"5858e6a9717c197fea000327"];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx51d9b5093fb9d4a6" appSecret:@"b20058a1c4d01604fcd9fe13f6265079" redirectURL:@"http://mobile.umeng.com/social"];
 
     if (![[NSUserDefaults standardUserDefaults] boolForKey:firstLaunch]) {
         [self enterGuidePage];
@@ -99,6 +104,18 @@ static AppDelegate *singleton = nil;
     // Required - 处理收到的通知
     [JPUSHService handleRemoteNotification:userInfo];
 }
+
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        return result;
+    }
+
+    return YES;
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     

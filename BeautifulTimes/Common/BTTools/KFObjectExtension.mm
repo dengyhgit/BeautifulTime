@@ -23,7 +23,7 @@
     NSString* str2 = [str1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
     NSString* str3 = [@"\"" stringByAppendingString:str2];
     NSString* str4 = [str3 stringByAppendingString:@"\""];
-    NSString* str5 = [NSPropertyListSerialization propertyListFromData:[str4 dataUsingEncoding:NSUTF8StringEncoding] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL];
+    NSString* str5 = [NSPropertyListSerialization propertyListWithData:[str4 dataUsingEncoding:NSUTF8StringEncoding] options:NSPropertyListImmutable format:NULL error:NULL];
     return [str5 stringByReplacingOccurrencesOfString:@"\\r\\n" withString:@"\n"];
 }
 

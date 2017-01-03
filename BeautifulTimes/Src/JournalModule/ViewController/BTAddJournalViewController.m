@@ -20,8 +20,6 @@
 #import "BTSelectPhotosViewController.h"
 #import "BTWeatherHttp.h"
 
-#define WeatherRootKey @"HeWeather data service 3.0"
-
 static const CGFloat itemWidth = 70;
 
 @interface BTAddJournalViewController ()<UITextViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, BTWeatherStatusViewDelegate>
@@ -162,19 +160,11 @@ static const CGFloat itemWidth = 70;
         for (CLPlacemark * placemark in placemarks) {
             NSDictionary *info = [placemark addressDictionary];
             NSString * city = [info objectForKey:@"City"];
-//            NSString *country = [info objectForKey:@"Country"];
             [[NSUserDefaults standardUserDefaults] setObject:[self cutStr:city] forKey:currentCity];
             [[NSUserDefaults standardUserDefaults] setObject:[self cutStr:city] forKey:currentCountry];
             [BTWeatherHttp reqeustWeatherInfo:[self cutStr:city] successCallback:^(NSDictionary *retDict) {
-                self.model.city = retDict[WeatherRootKey][0][@"basic"][@"city"];
-                self.model.pm25 = retDict[WeatherRootKey][0][@"aqi"][@"city"][@"pm25"];
-                self.model.updateTime = retDict[WeatherRootKey][0][@"basic"][@"update"][@"loc"];
-                self.model.maxTemperature = retDict[WeatherRootKey][0][@"daily_forecast"][0][@"tmp"][@"max"];
-                self.model.minTemperature = retDict[WeatherRootKey][0][@"daily_forecast"][0][@"tmp"][@"min"];
-                self.model.dayWeatherIcon = retDict[WeatherRootKey][0][@"daily_forecast"][0][@"cond"][@"txt_d"];
-                self.model.nightWeatherIcon = retDict[WeatherRootKey][0][@"daily_forecast"][0][@"cond"][@"txt_n"];
+                [self.model bindDat:retDict];
                 [self.weatherStatusView bindData:self.model];
-                
             } failCallback:^(NSError *error) {
                 
             }];
@@ -278,10 +268,10 @@ static const CGFloat itemWidth = 70;
 }
 
 - (void)tapWeatherStatusView {
-    BTWeatnerInfoViewController *weatherInfoVC = [[BTWeatnerInfoViewController alloc] init];
-    [self presentViewController:weatherInfoVC animated:YES completion:^{
-        
-    }];
+//    BTWeatnerInfoViewController *weatherInfoVC = [[BTWeatnerInfoViewController alloc] init];
+//    [self presentViewController:weatherInfoVC animated:YES completion:^{
+//        
+//    }];
 }
 
 #pragma mark 去掉市字
