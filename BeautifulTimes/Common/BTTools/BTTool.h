@@ -69,4 +69,14 @@
  */
 + (NSString *)getCachesDirectory;
 
++ (NSString *)getJMessageAppKey;
+
++ (NSString *)getUMAppKey;
+
++ (NSString *)getWXAppKey;
+
++ (NSString *)getWXAppSecret;
+
++ (NSString *)getAdMobBannerId;
+
 @end

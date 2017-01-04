@@ -13,11 +13,7 @@
 @protocol SendMessageDelegate <NSObject>
 
 @optional
-/**
- *  发送文本
- *
- *  @param text 文本
- */
+
 /**
  *  输入框刚好开始编辑
  *
@@ -40,6 +36,8 @@
 - (void)noPressmoreBtnClick :(UIButton *)btn;
 
 - (void)pressMoreBtnClick :(UIButton *)btn;
+
+- (void)pressEmotionBtnClick :(UIButton *)btn;
 
 - (void)startRecordVoice;
 
@@ -70,47 +68,24 @@
 - (void)didDragInsideAction;
 
 @end
-@interface JMSGToolBar : UIView<UITextViewDelegate>
-/**
- *  表情button
- */
-@property (weak, nonatomic) IBOutlet UIButton *voiceButton;
-@property (weak, nonatomic) IBOutlet UIButton *faceButton;
 
-/**
- *  更多功能button
- */
+@interface JMSGToolBar : UIView<UITextViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIButton *voiceButton;
+@property (weak, nonatomic) IBOutlet UIButton *emotionButton;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
-/**
- *  语音button
- */
-/**
- *  文本输入view
- */
 @property (weak, nonatomic) IBOutlet JMSGMessageTextView *textView;
+@property (strong, nonatomic) UIButton *startRecordButton;
 
 /**
  *  Height of textView
  */
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeight;
 
-/**
- *  开始录音button
- */
-@property (strong, nonatomic) UIButton *startRecordButton;
-
-/**
- *  录音button 的高度
- */
-//@property (strong, nonatomic) UIButton *startRecordButton;
-/**
- *  是否正在录音
- */
 @property (nonatomic) BOOL isRecording;
 @property (assign, nonatomic) id<SendMessageDelegate> delegate;
 @property (strong, nonatomic) JMSGRecordAnimationView *recordAnimationView;
 @property (nonatomic) BOOL isPlaying;
-
 
 /**
  *  当录音按钮被按下所触发的事件，这时候是开始录音

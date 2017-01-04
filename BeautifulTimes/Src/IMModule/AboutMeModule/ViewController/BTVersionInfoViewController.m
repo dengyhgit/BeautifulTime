@@ -22,9 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"关于";
-    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+//    self.bannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
+    self.bannerView.adUnitID = [BTTool getAdMobBannerId];
     self.bannerView.rootViewController = self;
-    [self.bannerView loadRequest:[GADRequest request]];
+    GADRequest *request = [GADRequest request];
+//    request.testDevices = @[ @"dc6430e4968505b74984f450d2e414e9" ];
+    [self.bannerView loadRequest:request];
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
         [self setupNavButton];
     }

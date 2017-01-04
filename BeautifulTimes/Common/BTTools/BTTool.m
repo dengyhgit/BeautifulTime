@@ -141,4 +141,40 @@ static BTTool * tool = nil;
     return path;
 }
 
+// appkey
++ (NSString *)getJMessageAppKey {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PrivateInfo" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    NSString *appkey = dictionary[@"JMessageAppKey"];
+    return appkey;
+}
+
++ (NSString *)getUMAppKey {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PrivateInfo" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    NSString *appkey = dictionary[@"UMAppKey"];
+    return appkey;
+}
+
++ (NSString *)getWXAppKey {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PrivateInfo" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    NSString *appkey = dictionary[@"WXAppKey"];
+    return appkey;
+}
+
++ (NSString *)getWXAppSecret {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PrivateInfo" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    NSString *appSecret = dictionary[@"WXAppSecret"];
+    return appSecret;
+}
+
++ (NSString *)getAdMobBannerId {
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"PrivateInfo" ofType:@"plist"];
+    NSDictionary *dictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    NSString *bannerId = dictionary[@"AdMobBannerId"];
+    return bannerId;
+}
+
 @end

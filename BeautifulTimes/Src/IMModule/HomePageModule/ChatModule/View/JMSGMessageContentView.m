@@ -7,6 +7,7 @@
 //
 
 #import "JMSGMessageContentView.h"
+#import "YHParseEmotionMessage.h"
 
 static NSInteger const textMessageContentTopOffset = 10;
 static NSInteger const textMessageContentRightOffset = 15;
@@ -63,23 +64,7 @@ static NSInteger const textMessageContentRightOffset = 15;
             } else {
                 [_textContent setFrame:CGRectMake(textMessageContentRightOffset - 5, textMessageContentTopOffset, self.frame.size.width - 2 * textMessageContentRightOffset, self.frame.size.height- 2 * textMessageContentTopOffset)];
             }
-            _textContent.text = ((JMSGTextContent *)message.content).text;
-            break;
-            
-        case kJMSGContentTypeLocation:
-        {
-            _voiceConent.hidden = YES;
-            _textContent.hidden = NO;
-            
-            if (isReceived) {
-                [_textContent setFrame:CGRectMake(textMessageContentRightOffset + 5, textMessageContentTopOffset, self.frame.size.width - 2 * textMessageContentRightOffset, self.frame.size.height- 2 * textMessageContentTopOffset)];
-            } else {
-                [_textContent setFrame:CGRectMake(textMessageContentRightOffset - 5, textMessageContentTopOffset, self.frame.size.width - 2 * textMessageContentRightOffset, self.frame.size.height- 2 * textMessageContentTopOffset)];
-            }
-            JMSGLocationContent *content = (JMSGLocationContent *)self.message.content;
-            NSString *location = [NSString stringWithFormat:@"在%@，经度：%@，纬度：%@，缩放比例：%@", content.address, content.longitude, content.latitude, content.scale];
-            _textContent.text = location;
-        }    
+            _textContent.attributedText = [YHParseEmotionMessage attributedStringWithText:((JMSGTextContent *)message.content).text];
             break;
             
         case kJMSGContentTypeImage:
@@ -191,4 +176,5 @@ static NSInteger const textMessageContentRightOffset = 15;
 -(void)delete:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:kDeleteMessage object:_message];
 }
+
 @end

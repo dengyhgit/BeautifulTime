@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HMEmotion.h"
+
 typedef NS_ENUM(NSUInteger, JPIMInputViewType) {
     JPIMInputViewTypeNormal = 0,
     JPIMInputViewTypeText,
@@ -16,14 +18,9 @@ typedef NS_ENUM(NSUInteger, JPIMInputViewType) {
 
 @interface JMSGMessageTextView : UITextView
 
-/**
- *  提示用户输入的标语
- */
+
 @property (nonatomic, copy) NSString *placeHolder;
 
-/**
- *  标语文本的颜色
- */
 @property (nonatomic, strong) UIColor *placeHolderTextColor;
 
 /**
@@ -48,5 +45,15 @@ typedef NS_ENUM(NSUInteger, JPIMInputViewType) {
  *  @return 返回占据行数
  */
 + (NSUInteger)numberOfLinesForMessage:(NSString *)text;
+
+/**
+ *  拼接表情
+ */
+- (void)appendEmotion:(HMEmotion *)emotion;
+
+/**
+ *  具体的文字内容
+ */
+- (NSString *)messageText;
 
 @end

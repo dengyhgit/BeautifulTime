@@ -8,7 +8,6 @@
 
 #import "JMSGToolBar.h"
 #import "JMSGRecordAnimationView.h"
-#import <AVFoundation/AVFoundation.h>
 #import "NSString+MessageInputView.h"
 #import "JMSGFileManager.h"
 #import "JMSGAudioPlayerHelper.h"
@@ -16,13 +15,18 @@
 
 @implementation JMSGToolBar
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.textView.returnKeyType = UIReturnKeySend;
+    self.textView.layer.masksToBounds = YES;
+    self.textView.layer.cornerRadius = 5.0;
+    self.textView.layer.borderWidth = 0.5;
+    self.textView.layer.borderColor = [[UIColor grayColor] CGColor];
+    [self addSubview:self.startRecordButton];
+    
+//    UIWindow *window =(UIWindow *)[UIApplication sharedApplication].keyWindow;
+//    self.recordAnimationView = [[JMSGRecordAnimationView alloc]initWithFrame:CGRectMake((kApplicationWidth-140)/2, (kScreenHeight -kNavigationBarHeight - kTabBarHeight - 140)/2, 140, 140)];
+//    [window addSubview:self.recordAnimationView];
 }
 
 - (IBAction)addBtnClick:(id)sender {
@@ -37,7 +41,16 @@
     }
 }
 
+- (IBAction)emotionBtnClick:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(pressMoreBtnClick:)]){
+        [self.delegate pressEmotionBtnClick:sender];
+    }
+}
+
 - (IBAction)voiceBtnClick:(id)sender {
+    if(self.textView.inputView) {
+        self.textView.inputView = nil;
+    }
     [self switchInputMode];
 }
 
@@ -52,8 +65,8 @@
 
 - (void)switchToVoiceInputMode {
     self.voiceButton.selected = YES;
-    [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_toolbar"] forState:UIControlStateNormal];
-    [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_toolbar_pre"] forState:UIControlStateHighlighted];
+    [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_Keyboard"] forState:UIControlStateNormal];
+    [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_KeyboardHL"] forState:UIControlStateHighlighted];
     
     [self.textView setHidden:YES];
     [self.startRecordButton setHidden:NO];
@@ -72,8 +85,8 @@
 - (void)switchToolbarToTextMode {
     self.voiceButton.selected=NO;
     self.voiceButton.contentMode = UIViewContentModeCenter;
-    [self.voiceButton setImage:[UIImage imageNamed:@"voice_toolbar"] forState:UIControlStateNormal];
-    [self.voiceButton setImage:[UIImage imageNamed:@"voice_toolbar_pre"] forState:UIControlStateHighlighted];
+    [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_Voice"] forState:UIControlStateNormal];
+    [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_VoiceHL"] forState:UIControlStateHighlighted];
     [self.startRecordButton setHidden:YES];
     [self.textView setHidden:NO];
 }
@@ -81,59 +94,19 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (self.voiceButton.selected == NO) {
-        [self.voiceButton setImage:[UIImage imageNamed:@"voice_toolbar"] forState:UIControlStateNormal];
-        [self.voiceButton setImage:[UIImage imageNamed:@"voice_toolbar_pre"] forState:UIControlStateHighlighted];
+        [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_Voice"] forState:UIControlStateNormal];
+        [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_VoiceHL"] forState:UIControlStateHighlighted];
     } else{
-        [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_toolbar"] forState:UIControlStateNormal];
-        [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_toolbar_pre"] forState:UIControlStateHighlighted];
+        [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_Keyboard"] forState:UIControlStateNormal];
+        [self.voiceButton setImage:[UIImage imageNamed:@"YH_KB_KeyboardHL"] forState:UIControlStateHighlighted];
     }
-    [self setBackgroundColor:RGBColor(223, 223, 223)];
 }
 
 - (void)drawRect:(CGRect)rect {
-    if (self.startRecordButton){
-        [self.startRecordButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-            
-        }];
-        
-        [self.startRecordButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self).with.offset(5);
-            make.bottom.mas_equalTo(self).with.offset(-4);
-            make.height.mas_equalTo(36);
-            make.left.mas_equalTo(self.voiceButton.mas_right).with.offset(5);
-            make.right.mas_equalTo(self.addButton.mas_left).with.offset(-5);
-        }];
-        return;
+    if (self.textView.delegate != self) {
+        self.textView.delegate = self;
     }
-    self.voiceButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
-    [self.voiceButton setImage:[UIImage imageNamed:@"voice_toolbar"] forState:UIControlStateNormal];
-    self.textView.delegate = self;
-    
-    self.textView.returnKeyType = UIReturnKeySend;
-    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapClick:)];
-    [self addGestureRecognizer:gesture];
-    [self setFrame:CGRectMake(0, kApplicationHeight + kStatusBarHeight - 45, self.bounds.size.width, 45)];
-    
-    self.startRecordButton = [UIButton new];
-    
-    [self.startRecordButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.startRecordButton setTitleColor: [UIColor whiteColor] forState:UIControlStateHighlighted];
-    [self.startRecordButton setTitle:@"按住 说话" forState:UIControlStateNormal];
-    [self.startRecordButton setTitle:@"松开 结束" forState:UIControlStateHighlighted];
-    self.startRecordButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleTopMargin;
-    [self.startRecordButton setBackgroundColor:UIColorFromRGB(0x3f80dc)];
-    [self.startRecordButton addTarget:self action:@selector(holdDownButtonTouchDown) forControlEvents:UIControlEventTouchDown];
-    [self.startRecordButton addTarget:self action:@selector(holdDownButtonTouchUpOutside) forControlEvents:UIControlEventTouchUpOutside];
-    [self.startRecordButton addTarget:self action:@selector(holdDownButtonTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-    [self.startRecordButton addTarget:self action:@selector(holdDownDragOutside) forControlEvents:UIControlEventTouchDragExit];
-    [self.startRecordButton addTarget:self action:@selector(holdDownDragInside) forControlEvents:UIControlEventTouchDragEnter];
-    self.startRecordButton.frame =CGRectMake(self.voiceButton.frame.origin.x + self.voiceButton.frame.size.width + 5, 7.5, self.textView.bounds.size.width + 5, 30);
-    [self.startRecordButton setHidden:YES];
-    [self addSubview:self.startRecordButton];
-    
-    UIWindow *window =(UIWindow *)[UIApplication sharedApplication].keyWindow;
-    self.recordAnimationView=[[JMSGRecordAnimationView alloc]initWithFrame:CGRectMake((kApplicationWidth-140)/2, (kScreenHeight -kNavigationBarHeight - kTabBarHeight - 140)/2, 140, 140)];
-    [window addSubview:self.recordAnimationView];
+    self.startRecordButton.frame = self.textView.frame;
 }
 
 - (void)holdDownButtonTouchDown {
@@ -228,11 +201,6 @@
     return bCanRecord;
 }
 
-- (void)tapClick:(UIGestureRecognizer *)gesture
-{
-    [self.textView resignFirstResponder];
-}
-
 #pragma mark -
 #pragma mark RecordingDelegate
 - (void)recordingFinishedWithFileName:(NSString *)filePath time:(NSTimeInterval)interval
@@ -263,13 +231,17 @@
     
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString:@"\n"]) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(sendText:)]) {
-            [self.delegate sendText:textView.text];
+            if ([textView isKindOfClass:[JMSGMessageTextView class]]) {
+                JMSGMessageTextView *msgTextView = (JMSGMessageTextView *)textView;
+                [self.delegate sendText:msgTextView.messageText];
+            } else {
+                [self.delegate sendText:textView.text];
+            }
         }
-        textView.text=@"";
+        textView.text = @"";
         return NO;
     }
     return YES;
@@ -325,8 +297,27 @@
     _textView = nil;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+#pragma mark - setter
+- (UIButton *)startRecordButton {
+    if (!_startRecordButton) {
+        _startRecordButton = [[UIButton alloc] init];
+        _startRecordButton.layer.masksToBounds = YES;
+        _startRecordButton.layer.cornerRadius = 5.0;
+        _startRecordButton.layer.borderWidth = 0.5;
+        _startRecordButton.layer.borderColor = [[UIColor grayColor] CGColor];
+        
+        [_startRecordButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_startRecordButton setTitleColor: [UIColor blackColor] forState:UIControlStateHighlighted];
+        [_startRecordButton setTitle:@"按住 说话" forState:UIControlStateNormal];
+        [_startRecordButton setTitle:@"松开 结束" forState:UIControlStateHighlighted];
+        [_startRecordButton addTarget:self action:@selector(holdDownButtonTouchDown) forControlEvents:UIControlEventTouchDown];
+        [_startRecordButton addTarget:self action:@selector(holdDownButtonTouchUpOutside) forControlEvents:UIControlEventTouchUpOutside];
+        [_startRecordButton addTarget:self action:@selector(holdDownButtonTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+        [_startRecordButton addTarget:self action:@selector(holdDownDragOutside) forControlEvents:UIControlEventTouchDragExit];
+        [_startRecordButton addTarget:self action:@selector(holdDownDragInside) forControlEvents:UIControlEventTouchDragEnter];
+        [_startRecordButton setHidden:YES];
+    }
+    return _startRecordButton;
 }
 
 @end

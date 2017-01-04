@@ -48,7 +48,6 @@
 }
 
 - (void)setupNavigation {
-//    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     _rightBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_rightBarButton setFrame:CGRectMake(0, 0, 50, 30)];
     [_rightBarButton addTarget:self action:@selector(addBtnClick:) forControlEvents:UIControlEventTouchUpInside];

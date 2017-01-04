@@ -1,27 +1,21 @@
 //
-//  BTChatMessageModel.m
+//  YHParseEmotionMessage.m
 //  BeautifulTimes
 //
-//  Created by dengyonghao on 16/1/11.
-//  Copyright © 2016年 dengyonghao. All rights reserved.
+//  Created by deng on 17/1/4.
+//  Copyright © 2017年 dengyonghao. All rights reserved.
 //
 
-#import "BTChatMessageModel.h"
+#import "YHParseEmotionMessage.h"
 #import "HMRegexResult.h"
 #import "HMEmotion.h"
 #import "HMEmotionTool.h"
 #import "HMEmotionAttachment.h"
 #import "RegexKitLite.h"
 
-@implementation BTChatMessageModel
+@implementation YHParseEmotionMessage
 
--(void)setMessage:(NSString *)message
-{
-    _message = [message copy];
-    [self createAttributedText];
-}
-
-- (NSArray *)regexResultsWithText:(NSString *)text
++ (NSArray *)regexResultsWithText:(NSString *)text
 {
     // 用来存放所有的匹配结果
     NSMutableArray *regexResults = [NSMutableArray array];
@@ -54,15 +48,7 @@
     return regexResults;
 }
 
-- (void)createAttributedText
-{
-    if (self.message == nil) {
-       return;
-    }
-    self.attributedBody = [self attributedStringWithText:self.message];
-}
-
-- (NSAttributedString *)attributedStringWithText:(NSString *)text
++ (NSAttributedString *)attributedStringWithText:(NSString *)text
 {
     // 1.匹配字符串
     NSArray *regexResults = [self regexResultsWithText:text];
@@ -97,6 +83,5 @@
     [attributedString addAttribute:NSFontAttributeName value:BT_FONTSIZE(16) range:NSMakeRange(0, attributedString.length)];
     return attributedString;
 }
-
 
 @end

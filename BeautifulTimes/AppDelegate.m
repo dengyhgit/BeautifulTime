@@ -47,12 +47,14 @@ static AppDelegate *singleton = nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [JMessage setLogOFF];
+    NSString *JMessageAppKey = [BTTool getJMessageAppKey];
     [JMessage addDelegate:self withConversation:nil];
     [JMessage setupJMessage:launchOptions
-                     appKey:JMSSAGE_APPKEY
-                    channel:CHANNEL
+                     appKey:JMessageAppKey
+                    channel:@""
            apsForProduction:NO
                    category:nil];
+    NSLog(@"----------------%@", kJPFNetworkIsConnectingNotification);
     
     [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
                                                       UIUserNotificationTypeSound |
@@ -64,8 +66,8 @@ static AppDelegate *singleton = nil;
     singleton = self;
     [self initTheme];
     
-    [[UMSocialManager defaultManager] setUmSocialAppkey:@"5858e6a9717c197fea000327"];
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx51d9b5093fb9d4a6" appSecret:@"b20058a1c4d01604fcd9fe13f6265079" redirectURL:@"http://mobile.umeng.com/social"];
+    [[UMSocialManager defaultManager] setUmSocialAppkey:[BTTool getUMAppKey]];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:[BTTool getWXAppKey] appSecret:[BTTool getWXAppSecret] redirectURL:@"http://mobile.umeng.com/social"];
 
     if (![[NSUserDefaults standardUserDefaults] boolForKey:firstLaunch]) {
         [self enterGuidePage];

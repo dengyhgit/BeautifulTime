@@ -20,6 +20,4 @@
 @property (nonatomic, assign) BOOL hiddenTime;     //是否隐藏时间
 @property (nonatomic, assign) BOOL isCurrentUser;  //如果是YES就是当前用户  如果是NO就是聊天的用户
 
-//- (void)bindData:(JMSGConversation *)conversation;
-
 @end

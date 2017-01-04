@@ -7,6 +7,7 @@
 //
 
 #import "JMSGChatModel.h"
+#import "YHParseEmotionMessage.h"
 
 static NSInteger const voiceBubbleHeight = 50;
 
@@ -33,11 +34,6 @@ static NSInteger const voiceBubbleHeight = 50;
         }
             break;
         case kJMSGContentTypeText:
-        {
-            [self getTextHeight];
-        }
-            break;
-        case kJMSGContentTypeLocation:
         {
             [self getTextHeight];
         }
@@ -89,22 +85,8 @@ static NSInteger const voiceBubbleHeight = 50;
             break;
         case kJMSGContentTypeText:
         {
-            [self getTextSizeWithString:((JMSGTextContent *)self.message.content).text];
-        }
-            break;
-        case kJMSGContentTypeLocation:
-        {
-            JMSGLocationContent *content = (JMSGLocationContent *)self.message.content;
-            NSString *location = [NSString stringWithFormat:@"在%@，经度：%@，纬度：%@，缩放比例：%@", content.address, content.longitude, content.latitude, content.scale];
-            [self getTextSizeWithString:location];
-        }
-            break;
-        case kJMSGContentTypeImage:
-        {
-        }
-            break;
-        case kJMSGContentTypeVoice:
-        {
+            [self getTextSizeWithAttributedString:[YHParseEmotionMessage attributedStringWithText:((JMSGTextContent *)self.message.content).text]];
+            
         }
             break;
         case kJMSGContentTypeEventNotification:
@@ -121,15 +103,31 @@ static NSInteger const voiceBubbleHeight = 50;
 - (CGSize)getTextSizeWithString:(NSString *)string {
     CGSize maxSize = CGSizeMake(200, 2000);
     UIFont *font =[UIFont systemFontOfSize:18];
-    NSMutableParagraphStyle *paragraphStyle= [[NSMutableParagraphStyle alloc] init];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     CGSize realSize = [string boundingRectWithSize:maxSize options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font,NSParagraphStyleAttributeName:paragraphStyle} context:nil].size;
-    CGSize imgSize =realSize;
-    imgSize.height=realSize.height+20;
-    imgSize.width=realSize.width+2*15;
+    CGSize imgSize = realSize;
+    imgSize.height = realSize.height + 20;
+    imgSize.width = realSize.width + 2 * 15;
     _contentSize = imgSize;
     _contentHeight = imgSize.height;
     return imgSize;
 }
+
+- (CGSize)getTextSizeWithAttributedString:(NSAttributedString *)string {
+    CGSize maxSize = CGSizeMake(200, 2000);
+    
+    CGRect realRect = [string boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    
+    CGSize imgSize;
+    imgSize.height = realRect.size.height + 20;
+    imgSize.width = realRect.size.width + 2 * 15;
+    _contentSize = imgSize;
+    _contentHeight = imgSize.height;
+    
+    return imgSize;
+}
+
+
 
 - (CGSize)getNotificationWithString:(NSString *)string {
     CGSize notiSize= [JMSGStringUtils stringSizeWithWidthString:string withWidthLimit:280 withFont:[UIFont systemFontOfSize:14]];
