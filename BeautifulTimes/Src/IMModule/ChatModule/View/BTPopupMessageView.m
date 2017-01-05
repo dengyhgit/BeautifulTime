@@ -7,6 +7,7 @@
 //
 
 #import "BTPopupMessageView.h"
+#import "YHParseEmotionMessage.h"
 
 @interface BTPopupMessageView()
 
@@ -20,13 +21,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:self.messagLabel];
-//        WS(weakSelf);
-//        [self.messagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(weakSelf).offset(10);
-//            make.left.equalTo(weakSelf).offset(10);
-//            make.right.equalTo(weakSelf).offset(-10);
-//            make.bottom.equalTo(weakSelf).offset(-10);
-//        }];
     }
     return self;
 }
@@ -44,13 +38,17 @@
     NSString *messageInfo;
     if (message.contentType == kJMSGContentTypeText) {
         JMSGTextContent *content = (JMSGTextContent *)message.content;
-        messageInfo = content.text;
-    } else if (message.contentType == kJMSGContentTypeImage) {
-        messageInfo = @"发来一张图片";
+        self.messagLabel.attributedText = [YHParseEmotionMessage attributedStringWithText:[NSString stringWithFormat:@"%@：%@", senderInfo, content.text]];
     } else {
-        messageInfo = @"发来一段语音";
+        if (message.contentType == kJMSGContentTypeImage) {
+            messageInfo = @"发来一张图片";
+        } else {
+            messageInfo = @"发来一段语音";
+        }
+        [self.messagLabel setText:[NSString stringWithFormat:@"%@：%@", senderInfo, messageInfo]];
     }
-    [self.messagLabel setText:[NSString stringWithFormat:@"%@：%@", senderInfo, messageInfo]];
+    
+    
     [self.messagLabel setTextColor:[UIColor whiteColor]];
 }
 

@@ -7,9 +7,7 @@
 //
 
 #import "BTIMAboutMeViewController.h"
-#import "BTChatMessageCell.h"
 #import "BTTableGroupModel.h"
-#import "BTAboutMeCellModel.h"
 #import "BTAboutMeCell.h"
 #import "BTAboutMeCellModel.h"
 #import "BTIMSettingViewController.h"

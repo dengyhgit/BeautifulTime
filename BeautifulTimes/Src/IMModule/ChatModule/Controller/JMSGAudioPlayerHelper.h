@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVAudioPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 #import "XHMacro.h"
 
 @protocol XHAudioPlayerHelperDelegate <NSObject>

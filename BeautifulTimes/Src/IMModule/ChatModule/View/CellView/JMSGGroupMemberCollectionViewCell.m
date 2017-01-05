@@ -20,12 +20,12 @@
 @implementation JMSGGroupMemberCollectionViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     _AvatarImgView.layer.masksToBounds = YES;
     _deleteMemberBtn.layer.masksToBounds = YES;
     _AvatarImgView.layer.cornerRadius = _AvatarImgView.bounds.size.height/2;
     _AvatarImgView.contentMode = UIViewContentModeScaleAspectFill;
     _deleteMemberBtn.layer.cornerRadius = 10;
-    
 }
 
 - (void)setDataWithUser:(JMSGUser *)user withEditStatus:(BOOL)isInEdit {

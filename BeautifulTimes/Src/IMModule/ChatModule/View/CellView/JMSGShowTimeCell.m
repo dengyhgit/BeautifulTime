@@ -11,6 +11,7 @@
 @implementation JMSGShowTimeCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self setBackgroundColor:[UIColor clearColor]];
     self.messageTimeLabel.font = [UIFont systemFontOfSize:14];
     self.messageTimeLabel.textColor = [UIColor grayColor];

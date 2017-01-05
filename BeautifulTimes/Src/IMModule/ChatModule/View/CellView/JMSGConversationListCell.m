@@ -8,11 +8,12 @@
 
 #import "JMSGConversationListCell.h"
 #import "JMSGSendMsgManager.h"
-#import <CoreText/CoreText.h>
+#import "YHParseEmotionMessage.h"
 
 @implementation JMSGConversationListCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.time.textColor = [UIColor grayColor];
     self.nickName.textColor = UIColorFromRGB(0x3f80dd);
     self.message.textColor = UIColorFromRGB(0x808080);
@@ -59,25 +60,33 @@
     self.nickName.text = conversation.title;
     self.conversationId = [self conversationIdWithConversation:conversation];
     
-    //SDK：异步获取会话头像
-    [conversation avatarData:^(NSData *data, NSString *objectId, NSError *error) {
-        if (![objectId isEqualToString:_conversationId]) {
-            return ;
-        }
-        if (error == nil) {
-            if (data != nil) {
-                [self.headView setImage:[UIImage imageWithData:data]];
-            } else {
-                if (conversation.conversationType == kJMSGConversationTypeSingle) {
+    if (conversation.conversationType == kJMSGConversationTypeSingle) {
+        JMSGUser *user = conversation.target;
+        [user thumbAvatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (error == nil) {
+                if (data != nil) {
+                    [self.headView setImage:[UIImage imageWithData:data]];
+                } else {
                     [self.headView setImage:[UIImage imageNamed:@"headDefalt"]];
+                }
+            }
+        }];
+    } else {
+        //SDK：异步获取会话头像
+        [conversation avatarData:^(NSData *data, NSString *objectId, NSError *error) {
+            if (![objectId isEqualToString:_conversationId]) {
+                return ;
+            }
+            if (error == nil) {
+                if (data != nil) {
+                    [self.headView setImage:[UIImage imageWithData:data]];
                 } else {
                     [self.headView setImage:[UIImage imageNamed:@"talking_icon_group"]];
                 }
             }
-        } else {
-            LogInfo(@"fail get avatar");
-        }
-    }];
+        }];
+    }
+    
     
     if ([conversation.unreadCount integerValue] > 0) {
         [self.messageNumberLabel setHidden:NO];
@@ -88,13 +97,13 @@
     
     if (conversation.latestMessage.timestamp != nil ) {
         double time = [conversation.latestMessage.timestamp doubleValue];
-        self.time.text = [JMSGStringUtils getFriendlyDateString:time forConversation:YES];
+        self.time.text = [JMSGStringUtils getFriendlyDateString:time / 1000 forConversation:YES];
     } else {
         self.time.text = @"";
     }
     
     if ([[[JMSGSendMsgManager ins] draftStringWithConversation:conversation] isEqualToString:@""]) {
-        self.message.text = conversation.latestMessageContentText;
+        self.message.attributedText = [YHParseEmotionMessage attributedStringWithText:conversation.latestMessageContentText];
     } else {
         
         NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"[草稿] %@",[[JMSGSendMsgManager ins] draftStringWithConversation:conversation]]];

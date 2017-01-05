@@ -11,6 +11,7 @@
 @implementation JMSGFriendDetailMessgeCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self.skipBtn.layer setMasksToBounds:YES];
     self.skipBtn.layer.cornerRadius = 4;
     [self setSelectionStyle:UITableViewCellSelectionStyleNone];

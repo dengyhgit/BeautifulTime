@@ -12,6 +12,7 @@
 @implementation JMSGFootTableCollectionReusableView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     _footTableView.tableFooterView = [UIView new];
     [_footTableView registerNib:[UINib nibWithNibName:@"JMSGFootTableViewCell" bundle:nil] forCellReuseIdentifier:@"JMSGFootTableViewCell"];
     _footTableView.separatorStyle = UITableViewCellSeparatorStyleNone;

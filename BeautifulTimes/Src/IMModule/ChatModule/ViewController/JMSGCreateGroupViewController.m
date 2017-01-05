@@ -74,7 +74,7 @@
     [_groupTextField resignFirstResponder];
     [MBProgressHUD showMessage:@"正在创建群组！" toView:self.view];
     //SDK：创建群
-    [JMSGGroup createGroupWithName:nil desc:@"" memberArray:nil completionHandler:^(id resultObject, NSError *error) {
+    [JMSGGroup createGroupWithName:_groupTextField.text desc:@"" memberArray:@[[JMSGUser myInfo].username] completionHandler:^(id resultObject, NSError *error) {
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         if (!error) {
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];

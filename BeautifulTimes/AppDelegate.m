@@ -10,7 +10,6 @@
 #import "BTGuideViewController.h"
 #import "BTHomePageViewController.h"
 #import "BTBaseNavigationController.h"
-#import "BTHomePageViewController.h"
 #import "Journal.h"
 #import "BTIMTabBarController.h"
 #import "BTUserLoginViewController.h"
@@ -54,7 +53,6 @@ static AppDelegate *singleton = nil;
                     channel:@""
            apsForProduction:NO
                    category:nil];
-    NSLog(@"----------------%@", kJPFNetworkIsConnectingNotification);
     
     [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
                                                       UIUserNotificationTypeSound |

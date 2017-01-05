@@ -33,8 +33,4 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void)awakeFromNib {
-    
-}
-
 @end

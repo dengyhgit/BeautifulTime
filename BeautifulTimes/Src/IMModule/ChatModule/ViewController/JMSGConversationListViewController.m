@@ -27,21 +27,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-
-    
-    self.title = @"会话";
+    [JMessage addDelegate:self withConversation:nil];
     [self setupNavigation];
     [self addNotifications];
     [self setupBubbleView];
     [self setupChatTable];
-    //数据库升级
-    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
-    if (!appDelegate.isDBMigrating) {
-        [self addDelegate];
-    } else {
-        [MBProgressHUD showMessage:@"正在升级数据库" toView:self.view];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,11 +48,10 @@
 }
 
 - (void)setupNavigation {
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     _rightBarButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_rightBarButton setFrame:CGRectMake(0, 0, 50, 30)];
     [_rightBarButton addTarget:self action:@selector(addBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_rightBarButton setImage:JMSG_UIIMAGE(@"createConversation") forState:UIControlStateNormal];
+    [_rightBarButton setImage:BT_UIIMAGE(@"createConversation") forState:UIControlStateNormal];
     [_rightBarButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, -15 * [UIScreen mainScreen].scale)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBarButton];
 }
@@ -84,14 +73,7 @@
                                              selector:@selector(isConnecting)
                                                  name:kJPFNetworkIsConnectingNotification
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(dBMigrateFinish)
-                                                 name:kDBMigrateFinishNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(creatGroupSuccessToPushView:)
-                                                 name:kCreatGroupState
-                                               object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(skipToSingleChatView:)
                                                  name:kSkipToSingleChatViewState
@@ -100,10 +82,10 @@
 
 //add view
 - (void)setupBubbleView {
-    _addBgView = [[UIImageView alloc] initWithFrame:CGRectMake(kApplicationWidth - 100, 1, 100, 130)];
-    [_addBgView setBackgroundColor:JMSG_CLEARCOLOR];
+    _addBgView = [[UIImageView alloc] initWithFrame:CGRectMake(kApplicationWidth - 100, 1, 100, 100)];
+    [_addBgView setBackgroundColor:BT_CLEARCOLOR];
     [_addBgView setUserInteractionEnabled:YES];
-    UIImage *frameImg = JMSG_UIIMAGE(@"frame");
+    UIImage *frameImg = BT_UIIMAGE(@"frame");
     frameImg = [frameImg resizableImageWithCapInsets:UIEdgeInsetsMake(30, 10, 30, 64) resizingMode:UIImageResizingModeTile];
     [_addBgView setImage:frameImg];
     [_addBgView setHidden:YES];
@@ -133,21 +115,19 @@
     [JMSGConversation createSingleConversationWithUsername:user.username completionHandler:^(id resultObject, NSError *error) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error == nil) {
-            LogInfo(@"createSingleConversationWithUsername success");
             sendMessageCtl.conversation = resultObject;
-            JMSGMAINTHREAD(^{
+            BTMAINTHREAD(^{
                 sendMessageCtl.hidesBottomBarWhenPushed = YES;
                 [strongSelf.navigationController pushViewController:sendMessageCtl animated:YES];
             });
         } else {
-            LogInfo(@"createSingleConversationWithUsername error:%@", error);
         }
     }];
 }
 
 - (void)dBMigrateFinish {
-    NSLog(@"Migrate is finish  and get allconversation");
-    JMSGMAINTHREAD(^{
+//    NSLog(@"Migrate is finish  and get allconversation");
+    BTMAINTHREAD(^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     });
     [self addDelegate];
@@ -165,12 +145,10 @@
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         if (error == nil) {
             sendMessageCtl.conversation = (JMSGConversation *)resultObject;
-            JMSGMAINTHREAD(^{
-                LogInfo(@"createGroupConversationwithgroupid success");
+            BTMAINTHREAD(^{
                 [strongSelf.navigationController pushViewController:sendMessageCtl animated:YES];
             });
         } else {
-            LogInfo(@"createGroupConversationwithgroupid fail");
         }
     }];
     
@@ -195,31 +173,27 @@
 #pragma mark JMSGMessageDelegate
 - (void)onReceiveMessage:(JMSGMessage *)message
                    error:(NSError *)error {
-    LogInfo(@"Action -- onReceivemessage %@",message);
     [self getConversationList];
 }
 
 - (void)onConversationChanged:(JMSGConversation *)conversation {
-    LogInfo(@"Action -- onConversationChanged");
     [self getConversationList];
 }
 
 - (void)onGroupInfoChanged:(JMSGGroup *)group {
-    LogInfo(@"Action -- onGroupInfoChanged");
     [self getConversationList];
 }
 
 - (void)onReceiveNotificationEvent:(JMSGNotificationEvent *)event {
-    NSLog(@"\n\n === Notification Event === \n\n event 2 =:%@ \n\n === Notification Event === \n",@(event.eventType));
+    
 }
 
 - (void)getConversationList {
     [self.addBgView setHidden:YES];
     //SDK：conversation 列表
     [JMSGConversation allConversations:^(id resultObject, NSError *error) {
-        JMSGMAINTHREAD(^{
+        BTMAINTHREAD(^{
             if (error == nil) {
-                LogInfo(@"get allConversation success");
                 _conversationArr = [self sortConversation:resultObject];
                 _unreadCount = 0;
                 for (NSInteger i=0; i < [_conversationArr count]; i++) {
@@ -229,7 +203,6 @@
                 [self saveBadge:_unreadCount];
             } else {
                 _conversationArr = nil;
-                LogInfo(@"get allConversation error:%@", error);
             }
             [self.chatTableView reloadData];
         });
@@ -255,16 +228,13 @@ NSInteger sortType(id object1,id object2,void *cha) {
 
 //添加 addBgView 的子view
 - (void)addBtn {
-    for (NSInteger i = 0; i < 3; i++) {
+    for (NSInteger i = 0; i < 2; i++) {
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
         if (i == 0) {
             [btn setTitle:@"发起群聊" forState:UIControlStateNormal];
         }
         if (i == 1) {
             [btn setTitle:@"添加朋友" forState:UIControlStateNormal];
-        }
-        if (i == 2) {
-            [btn setTitle:@"跨应用会话" forState:UIControlStateNormal];
         }
         
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -294,20 +264,6 @@ NSInteger sortType(id object1,id object2,void *cha) {
         alerView.alertViewStyle = UIAlertViewStylePlainTextInput;
         alerView.tag = 20011;
         [alerView show];
-    } else {
-        UIAlertView *alerView =[[UIAlertView alloc] initWithTitle:@"创建跨应用会话"
-                                                          message:@"输入用户名和对方的AppKey"
-                                                         delegate:self
-                                                cancelButtonTitle:@"取消"
-                                                otherButtonTitles:@"确定", nil];
-        alerView.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
-        UITextField *userName = [alerView textFieldAtIndex:0];
-        userName.placeholder = @"用户名";
-        UITextField *appKey = [alerView textFieldAtIndex:1];
-        //        appKey.placeholder = @"AppKey";
-        appKey.text = @"d56cf91c2f4652901c3c4c13";
-        alerView.tag = 20022;
-        [alerView show];
     }
 }
 
@@ -334,28 +290,7 @@ NSInteger sortType(id object1,id object2,void *cha) {
                     sendMessageCtl.conversation = resultObject;
                     [strongSelf.navigationController pushViewController:sendMessageCtl animated:YES];
                 } else {
-                    LogInfo(@"createSingleConversationWithUsername fail");
                     [MBProgressHUD showMessage:@"添加的用户不存在" view:self.view];
-                }
-            }];
-        } else {
-            [[alertView textFieldAtIndex:1] resignFirstResponder];
-            if ([[alertView textFieldAtIndex:0].text isEqualToString:@""] || [[alertView textFieldAtIndex:1].text isEqualToString:@""]) {
-                [MBProgressHUD showMessage:@"请输入用户名和AppKey" view:self.view];
-                return;
-            }
-            [MBProgressHUD showMessage:@"请稍后..." toView:self.view];
-            //SKD：创建跨应用会话
-            [JMSGConversation createSingleConversationWithUsername:[alertView textFieldAtIndex:0].text appKey:[alertView textFieldAtIndex:1].text  completionHandler:^(id resultObject, NSError *error) {
-                [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
-                if (!error) {
-                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                    __strong __typeof(weakSelf) strongSelf = weakSelf;
-                    sendMessageCtl.conversation = resultObject;
-                    [strongSelf.navigationController pushViewController:sendMessageCtl animated:YES];
-                } else {
-                    LogInfo(@"创建跨应用会话失败");
-                    [MBProgressHUD showMessage:@"添加的跨应用用户不存在" view:self.view];
                 }
             }];
         }
@@ -363,8 +298,6 @@ NSInteger sortType(id object1,id object2,void *cha) {
 }
 
 - (void)addBtnClick:(UIButton *)btn {
-    
-    
     if (btn.selected) {
         btn.selected = NO;
         [self.addBgView setHidden:YES];
@@ -392,11 +325,8 @@ NSInteger sortType(id object1,id object2,void *cha) {
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     JMSGConversation *conversation = [_conversationArr objectAtIndex:indexPath.row];
     if (conversation.conversationType == kJMSGConversationTypeSingle) {
-        //SDK：删除单聊会话
-        //        [JMSGConversation deleteSingleConversationWithUsername:((JMSGUser *)conversation.target).username];
         [JMSGConversation deleteSingleConversationWithUsername:((JMSGUser *)conversation.target).username appKey:conversation.targetAppKey];
     } else {
-        //SDK：删除群聊会话
         [JMSGConversation deleteGroupConversationWithGroupId:((JMSGGroup *)conversation.target).gid];
     }
     
@@ -428,39 +358,8 @@ NSInteger sortType(id object1,id object2,void *cha) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     JMSGChatViewController *chatVC = [[JMSGChatViewController alloc] init];
     chatVC.hidesBottomBarWhenPushed = YES;
-    chatVC.superViewController = self;
+//    chatVC.superViewController = self;
     JMSGConversation *conversation = [_conversationArr objectAtIndex:indexPath.row];
-    
-    //此处只为测试接口，不考虑性能
-    //SDK：异步获取所有消息记录
-    [conversation allMessages:^(id resultObject, NSError *error) {
-        NSArray *array = (NSArray *)resultObject;
-        LogInfo(@"消息数：%ld", (long)array.count);
-    }];
-    
-    if (conversation.conversationType == kJMSGConversationTypeSingle) {
-        JMSGUser *user = conversation.target;
-        // SDK：获取单聊会话
-        conversation = [JMSGConversation singleConversationWithUsername:user.username appKey:conversation.targetAppKey];
-        if (!conversation) {
-            LogInfo(@"%s", "singleConversationWithUsername is bad");
-        }
-    } else {
-        JMSGGroup *group = conversation.target;
-//        JMSGTextContent *textContent = [[JMSGTextContent alloc] initWithText:@"@人消息"];
-//        //SDK：创建消息对象
-//        [JMSGUser userInfoArrayWithUsernameArray:@[@"dyh01"] completionHandler:^(id resultObject, NSError *error) {
-//            NSArray *users = (NSArray *)resultObject;
-//            JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:textContent groupId:group.gid at_list:@[users.firstObject]];
-//            [conversation sendMessage:message];
-//        }];
-        
-        // SDK：获取群聊会话
-        conversation = [JMSGConversation groupConversationWithGroupId:group.gid];
-        if (!conversation) {
-            LogInfo(@"%s", "groupConversationWithGroupId is bad");
-        }
-    }
     chatVC.conversation = conversation;
     [self.navigationController pushViewController:chatVC animated:YES];
     NSInteger badge = _unreadCount - [conversation.unreadCount integerValue];

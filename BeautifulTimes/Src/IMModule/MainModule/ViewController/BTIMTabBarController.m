@@ -8,8 +8,6 @@
 
 #import "BTIMTabBarController.h"
 #import "BTIMNavViewController.h"
-//#import "BTIMHomePageViewController.h"
-//#import "BTContacterViewController.h"
 #import "BTIMAboutMeViewController.h"
 #import "BTTabBarView.h"
 #import "JMSGContactsViewController.h"

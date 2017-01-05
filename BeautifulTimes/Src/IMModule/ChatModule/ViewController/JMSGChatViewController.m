@@ -16,9 +16,13 @@
 #import "JMSGLoadMessageTableViewCell.h"
 #import "JMSGSendMsgManager.h"
 #import "JMSGGroupDetailViewController.h"
-#import <CoreLocation/CoreLocation.h>
+#import "MJPhoto.h"
+#import "MJPhotoBrowser.h"
+#import "HMEmotionKeyboard.h"
+#import "HMEmotion.h"
 
-@interface JMSGChatViewController() <CLLocationManagerDelegate> {
+
+@interface JMSGChatViewController() {
     BOOL isNoOtherMessage;
     NSInteger messageOffset;
     NSMutableArray *_imgDataArr;
@@ -31,7 +35,7 @@
     __block int flag;
 }
 
-@property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) HMEmotionKeyboard *keyboard;
 
 @end
 
@@ -44,7 +48,7 @@
     _imgDataArr = @[].mutableCopy;
     [self setupView];
     [self addNotification];
-    [self addDelegate];
+    [JMessage addDelegate:self withConversation:self.conversation];
     [self getGroupMemberListWithGetMessageFlag:YES];
 }
 
@@ -69,7 +73,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [_conversation clearUnreadCount];
-    [[JMSGAudioPlayerHelper shareInstance] stopAudio];
+    if ([[JMSGAudioPlayerHelper shareInstance] isPlaying]) {
+        [[JMSGAudioPlayerHelper shareInstance] stopAudio];
+    }
     [[JMSGAudioPlayerHelper shareInstance] setDelegate:nil];
 }
 
@@ -80,72 +86,7 @@
 #pragma mark --释放内存
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    //SDK：删除Delegate监听
     [JMessage removeDelegate:self withConversation:_conversation];
-}
-
-//开始定位
--(void)startLocation{
-    self.locationManager = [[CLLocationManager alloc] init];
-    self.locationManager.delegate = self;
-    [self.locationManager requestAlwaysAuthorization];
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    [self.locationManager startUpdatingLocation];
-    flag = 0;
-    
-}
-
-//检测是否支持定位
-- (void)locationManager: (CLLocationManager *)manager
-       didFailWithError: (NSError *)error {
-    
-    NSString *errorString;
-    [manager stopUpdatingLocation];
-    switch([error code]) {
-        case kCLErrorDenied:
-            errorString = @"用户拒绝访问位置服务";
-            break;
-        case kCLErrorLocationUnknown:
-            errorString = @"位置数据不可用";
-            break;
-        default:
-            errorString = @"发生未知错误";
-            break;
-    }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-        [alert show];
-}
-
-//定位代理经纬度回调
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    
-    NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        for (CLPlacemark * placemark in placemarks) {
-            NSDictionary *info = [placemark addressDictionary];
-            NSString * city = [info objectForKey:@"City"];
-            
-            if (flag == 0) {
-                flag++;
-                [[JMSGSendMsgManager ins] updateConversation:_conversation withDraft:@""];
-                JMSGLocationContent *locationContent = [[JMSGLocationContent alloc] initWithLatitude:@(newLocation.coordinate.latitude) longitude:@(newLocation.coordinate.longitude) scale:@(1) address:city];
-                
-                JMSGChatModel *model = [[JMSGChatModel alloc] init];
-                JMSGMessage *message = [_conversation createMessageWithContent:locationContent];
-                [_conversation sendMessage:message];
-                
-                //            [_conversation sendLocationMessage:@(newLocation.coordinate.latitude) longitude:@(newLocation.coordinate.longitude) scale:@(1) address:city];
-                
-                [model setChatModelWith:message conversationType:_conversation];
-                [self addMessage:model];
-            }
-            break;
-        }
-    }];
-    [self.locationManager stopUpdatingLocation];
 }
 
 - (void)updateGroupConversationTittle:(JMSGGroup *)newGroup {
@@ -200,7 +141,6 @@
         [_rightBtn setImage:[UIImage imageNamed:@"userDetail"] forState:UIControlStateNormal];
     } else {
         [self updateGroupConversationTittle:nil];
-        //SDK：是不是自己创建的群
         if ([((JMSGGroup *)_conversation.target) isMyselfGroupMember]) {
             [_rightBtn setImage:[UIImage imageNamed:@"groupDetail"] forState:UIControlStateNormal];
         } else {
@@ -209,20 +149,6 @@
     }
     [_rightBtn addTarget:self action:@selector(addFriends) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightBtn];
-    
-    UIButton *leftBtn =[UIButton buttonWithType:UIButtonTypeCustom];
-    [leftBtn setFrame:kNavigationLeftButtonRect];
-    [leftBtn setImage:JMSG_UIIMAGE(@"goBack") forState:UIControlStateNormal];
-    [leftBtn setImageEdgeInsets:kGoBackBtnImageOffset];
-    [leftBtn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
-}
-
-- (void)backClick {
-    if ([[JMSGAudioPlayerHelper shareInstance] isPlaying]) {
-        [[JMSGAudioPlayerHelper shareInstance] stopAudio];
-    }
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)getGroupMemberListWithGetMessageFlag:(BOOL)getMesageFlag {
@@ -253,17 +179,15 @@
     [self hidenDetailBtn:hideFlag];
 }
 
-- (void)hidenDetailBtn:(BOOL)flag {
-    [_rightBtn setHidden:flag];
+- (void)hidenDetailBtn:(BOOL)isHidden {
+    [_rightBtn setHidden:isHidden];
 }
 
 #pragma mark --JMessageDelegate
 - (void)onSendMessageResponse:(JMSGMessage *)message
                         error:(NSError *)error {
-    LogInfo(@"Event - sendMessageResponse");
     [self relayoutTableCellWithMsgId:message.msgId];
     if (error != nil) {
-        LogInfo(@"Send response error - %@", error);
         [_conversation clearUnreadCount];
         NSString *alert = [JMSGStringUtils errorAlert:error];
         if (alert == nil) {
@@ -289,10 +213,8 @@
     if (message.contentType == kJMSGContentTypeCustom) {
         return;
     }
-    LogInfo(@"Event - receiveMessageNotification");
-    JMSGMAINTHREAD((^{
+    BTMAINTHREAD((^{
         if (!message) {
-            LogWarn(@"get the nil message .");
             return;
         }
         
@@ -327,10 +249,8 @@
         return;
     }
     
-    LogInfo(@"Event - receiveMessageNotification");
-    JMSGMAINTHREAD((^{
+    BTMAINTHREAD((^{
         if (!message) {
-            LogWarn(@"get the nil message .");
             return;
         }
         
@@ -353,7 +273,7 @@
     [self updateGroupConversationTittle:group];
 }
 - (void)onReceiveNotificationEvent:(JMSGNotificationEvent *)event {
-    NSLog(@"\n\n === Notification Event === \n\n event 3 =:%@ \n\n === Notification Event === \n",@(event.eventType));
+//    NSLog(@"\n\n === Notification Event === \n\n event 3 =:%@ \n\n === Notification Event === \n",@(event.eventType));
 }
 - (void)relayoutTableCellWithMsgId:(NSString *) messageId{
     if ([messageId isEqualToString:@""]) {
@@ -396,7 +316,6 @@
     
     messageOffset = messagefristPageNumber;
     
-    //SDK：同步分页获取最新的消息
     [arrList addObjectsFromArray:[[[_conversation messageArrayFromNewestWithOffset:@0 limit:@(messageOffset)] reverseObjectEnumerator] allObjects]];
     if ([arrList count] < messagefristPageNumber) {
         isNoOtherMessage = YES;
@@ -421,10 +340,9 @@
 
 - (void)flashToLoadMessage {
     NSMutableArray * arrList = @[].mutableCopy;
-    //SDK：同步分页获取最新的消息
     NSArray *newMessageArr = [_conversation messageArrayFromNewestWithOffset:@(messageOffset) limit:@(messagePageNumber)];
     [arrList addObjectsFromArray:newMessageArr];
-    if ([arrList count] < messagePageNumber) {// 判断还有没有新数据
+    if ([arrList count] < messagePageNumber) {
         isNoOtherMessage = YES;
         [_allmessageIdArr removeObjectAtIndex:0];
     }
@@ -451,7 +369,6 @@
         WEAKSELF
         _voiceRecordHelper = [[XHVoiceRecordHelper alloc] init];
         _voiceRecordHelper.maxTimeStopRecorderCompletion = ^{
-            LogInfo(@"已经达到最大限制时间了，进入下一步的提示");
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf finishRecorded];
         };
@@ -493,81 +410,14 @@
 }
 
 - (void)fileClick {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:nil
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:nil];
-    [actionSheet addButtonWithTitle:@"发送png"];
-    [actionSheet addButtonWithTitle:@"发送doc"];
-    [actionSheet addButtonWithTitle:@"发送zip"];
-    [actionSheet addButtonWithTitle:@"发送过大文件"];
-    [actionSheet addButtonWithTitle:@"取消"];
-    //设置取消按钮
-    actionSheet.cancelButtonIndex = actionSheet.numberOfButtons - 1;
-    [actionSheet showFromRect:self.view.superview.bounds inView:self.view.superview animated:NO];
-}
-
-#pragma mark UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == actionSheet.cancelButtonIndex)
-    {
-        return;
-    }
     
-    switch (buttonIndex)
-    {
-        case 0:
-        {
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"saoyisao@2x" ofType:@"png"];
-            NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-            [self.conversation sendFileMessage:data fileName:@"pngFile"];
-            LogInfo(@"发送png文件");
-        }
-            break;
-            
-        case 1:
-        {
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"docFile" ofType:@"docx"];
-            NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-            [self.conversation sendFileMessage:data fileName:@"docFile"];
-            LogInfo(@"发送doc文件");
-        }
-            break;
-        case 2:
-        {
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"zipFile" ofType:@"zip"];
-            NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-            [self.conversation sendFileMessage:data fileName:@"zipFile"];
-            LogInfo(@"发送zip文件");
-        }
-            break;
-        case 3:
-        {
-            NSString *path = [[NSBundle mainBundle] pathForResource:@"bigFile" ofType:@"zip"];
-            NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-            [self.conversation sendFileMessage:data fileName:@"bigFile"];
-            LogInfo(@"发送过大文件");
-        }
-            break;
-            
-        default:
-            break;
-    }
 }
 
 #pragma mark -调用相册
 - (void)photoClick {
-    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
-    [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-        JCHATPhotoPickerViewController *photoPickerVC = [[JCHATPhotoPickerViewController alloc] init];
-        photoPickerVC.photoDelegate = self;
-        [self presentViewController:photoPickerVC animated:YES completion:NULL];
-    } failureBlock:^(NSError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"没有相册权限" message:@"请到设置页面获取相册权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
-    }];
+    YHPhotoPickerViewController *photoPickerVC = [[YHPhotoPickerViewController alloc] init];
+    photoPickerVC.pickerDelegate = self;
+    [self presentViewController:photoPickerVC animated:YES completion:NULL];
 }
 
 #pragma mark --调用相机
@@ -587,12 +437,32 @@
 
 #pragma mark - 发送地理位置
 - (void)locationClick {
-    [self startLocation];
 }
 
-#pragma mark - HMPhotoPickerViewController Delegate
-- (void)JCHATPhotoPickerViewController:(JCHATPhotoSelectViewController *)PhotoPickerVC selectedPhotoArray:(NSArray *)selected_photo_array {
-    for (UIImage *image in selected_photo_array) {
+#pragma mark 预览图片 PictureDelegate
+- (void)tapPicture:(NSIndexPath *)index tapView:(UIImageView *)tapView tableViewCell:(UITableViewCell *)tableViewCell {
+    [self.toolBarContainer.toolbar.textView resignFirstResponder];
+    JMSGMessageTableViewCell *cell =(JMSGMessageTableViewCell *)tableViewCell;
+    NSInteger count = _imgDataArr.count;
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i<count; i++) {
+        JMSGChatModel *messageObject = [_imgDataArr objectAtIndex:i];
+        MJPhoto *photo = [[MJPhoto alloc] init];
+        photo.message = messageObject;
+        photo.srcImageView = tapView; // 来源于哪个UIImageView
+        [photos addObject:photo];
+    }
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = [_imgDataArr indexOfObject:cell.model];
+    //  browser.currentPhotoIndex = cell.model.photoIndex; // 弹出相册时显示的第一张图片是？
+    browser.photos = photos; // 设置所有的图片
+    browser.conversation =_conversation;
+    [browser show];
+}
+
+#pragma mark - YHPhotoPickerViewController Delegate
+- (void)YHPhotoPickerViewController:(YHSelectPhotoViewController *)PhotoPickerViewController selectedPhotos:(NSArray *)photos {
+    for (UIImage *image in photos) {
         [self prepareImageMessage:image];
     }
     [self dropToolBarNoAnimate];
@@ -619,23 +489,11 @@
 
 #pragma mark --发送图片
 - (void)prepareImageMessage:(UIImage *)img {
-    LogInfo(@"Action - prepareImageMessage");
     img = [img resizedImageByWidth:upLoadImgWidth];
     
     JMSGChatModel *model = [[JMSGChatModel alloc] init];
     JMSGImageContent *imageContent = [[JMSGImageContent alloc] initWithImageData:UIImagePNGRepresentation(img)];
-//    //不关心会话时的直接创建聊天消息的接口
-//    if (self.conversation && self.conversation.conversationType == kJMSGConversationTypeGroup) {
-//        JMSGGroup *group = self.conversation.target;
-//        JMSGMessage *message = [JMSGMessage createGroupMessageWithContent:imageContent groupId:group.gid];
-//        [JMSGMessage sendMessage:message];
-//    } else {
-//        JMSGUser *user = self.conversation.target;
-//        JMSGMessage *message = [JMSGMessage createSingleMessageWithContent:imageContent username:user.username];
-//        [JMSGMessage sendMessage:message];
-//    }
     if (imageContent) {
-        //SDK：创建消息对象（图片，异步）
         [_conversation createMessageAsyncWithImageContent:imageContent completionHandler:^(id resultObject, NSError *error) {
             [[JMSGSendMsgManager ins] addMessage:resultObject withConversation:_conversation];
             [model setChatModelWith:resultObject conversationType:_conversation];
@@ -645,11 +503,6 @@
             [self addMessage:model];
         }];
     }
-}
-
-#pragma mark --add Delegate
-- (void)addDelegate {
-    [JMessage addDelegate:self withConversation:self.conversation];
 }
 
 #pragma mark --加载通知
@@ -671,6 +524,18 @@
                                              selector:@selector(deleteMessage:)
                                                  name:kDeleteMessage
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(emotionDidSelected:)
+                                                 name:HMEmotionDidSelectedNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(emotionDidDeleted:)
+                                                 name:HMEmotionDidDeletedNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sendEmotion)
+                                                 name:FaceSendButton
+                                               object:nil];
     self.toolBarContainer.toolbar.textView.delegate = self;
 }
 
@@ -691,6 +556,11 @@
         _moreViewHeight.constant = 0;
     }];
     [self scrollToBottomAnimated:NO];
+}
+
+- (void)sendEmotion {
+    [self sendText:self.toolBarContainer.toolbar.textView.messageText];
+    self.toolBarContainer.toolbar.textView.text = @"";
 }
 
 #pragma mark --发送文本
@@ -719,10 +589,13 @@
 #pragma mark --按下功能响应
 - (void)pressMoreBtnClick:(UIButton *)btn {
     _barBottomFlag = NO;
+    if(_toolBarContainer.toolbar.textView.inputView) {
+        _toolBarContainer.toolbar.textView.inputView = nil;
+    }
     [_toolBarContainer.toolbar.textView resignFirstResponder];
     [UIView animateWithDuration:0.25 animations:^{
         _toolBarToBottomConstrait.constant = 0;
-        _moreViewHeight.constant = 227;
+        _moreViewHeight.constant = 216;
     }];
     [_toolBarContainer.toolbar switchToolbarToTextMode];
     [self scrollToBottomAnimated:NO];
@@ -732,18 +605,46 @@
     [_toolBarContainer.toolbar.textView becomeFirstResponder];
 }
 
+- (void)pressEmotionBtnClick:(UIButton *)btn {
+    _barBottomFlag = NO;
+    [_toolBarContainer.toolbar.textView resignFirstResponder];
+    
+    if(_toolBarContainer.toolbar.textView.inputView &&
+       [_toolBarContainer.toolbar.textView.inputView isKindOfClass:[HMEmotionKeyboard class]]) {
+        _toolBarContainer.toolbar.textView.inputView = nil;
+    } else {
+        _toolBarContainer.toolbar.textView.inputView = self.keyboard;
+    }
+    [_toolBarContainer.toolbar switchToolbarToTextMode];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_toolBarContainer.toolbar.textView becomeFirstResponder];
+    });
+    [self scrollToBottomAnimated:NO];
+}
+
+#pragma mark  当表情选中的时候调用
+- (void)emotionDidSelected:(NSNotification *)note
+{
+    HMEmotion *emotion = note.userInfo[HMSelectedEmotion];
+    [self.toolBarContainer.toolbar.textView appendEmotion:emotion];
+//    [self textViewDidChange:self.bottomInputView];
+}
+
+#pragma mark  当点击表情键盘上的删除按钮时调用
+- (void)emotionDidDeleted:(NSNotification *)note
+{
+    [self.toolBarContainer.toolbar.textView deleteBackward];
+}
+
 #pragma mark ----发送文本消息
 - (void)prepareTextMessage:(NSString *)text {
-    LogInfo(@"Action - prepareTextMessage");
     if ([text isEqualToString:@""] || text == nil) {
         return;
     }
     [[JMSGSendMsgManager ins] updateConversation:_conversation withDraft:@""];
     JMSGTextContent *textContent = [[JMSGTextContent alloc] initWithText:text];
     JMSGChatModel *model = [[JMSGChatModel alloc] init];
-    //SDK：创建消息对象
     JMSGMessage *message = [_conversation createMessageWithContent:textContent];
-    //SDK：发送文本
     [_conversation sendMessage:message];
     [model setChatModelWith:message conversationType:_conversation];
     [self addMessage:model];
@@ -948,11 +849,9 @@
 - (void)SendMessageWithVoice:(NSString *)voicePath
                voiceDuration:(NSString*)voiceDuration {
     if ([voiceDuration integerValue]<0.5) {
-        LogInfo(@"录音时长小于 0.5s");
         return;
     }
     if ([voiceDuration integerValue]>60) {
-        LogInfo(@"录音时长大于 60s");
         return;
     }
     JMSGChatModel *model =[[JMSGChatModel alloc] init];
@@ -981,6 +880,16 @@
     if (rows > 0) {
         [self.messageTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[_allmessageIdArr count]-1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:animated];
     }
+}
+
+- (HMEmotionKeyboard *)keyboard
+{
+    if (!_keyboard) {
+        _keyboard = [HMEmotionKeyboard keyboard];
+        _keyboard.width = BT_SCREEN_WIDTH;
+        _keyboard.height = 216.0f;
+    }
+    return _keyboard;
 }
 
 @end

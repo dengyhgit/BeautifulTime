@@ -11,6 +11,7 @@
 @implementation JMSGFootTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     _quitGroupBtn.layer.cornerRadius = 4;
     _quitGroupBtn.layer.masksToBounds = YES;
     _quitGroupBtn.backgroundColor = [UIColor redColor];

@@ -10,9 +10,9 @@
 #import "JMSGPersonInfoCell.h"
 #import "JMSGChatViewController.h"
 
-#define kSeparateLineFrame CGRectMake(0, 150-0.5,kApplicationWidth, 0.5)
-#define kHeadViewFrame CGRectMake((kApplicationWidth - 70)/2, (150-70)/2, 70, 70)
-#define kNameLabelFrame CGRectMake(0, 150-40, kApplicationWidth, 40)
+#define kSeparateLineFrame CGRectMake(0, 150-0.5,BT_SCREEN_WIDTH, 0.5)
+#define kHeadViewFrame CGRectMake((BT_SCREEN_WIDTH - 70)/2, (150-70)/2, 70, 70)
+#define kNameLabelFrame CGRectMake(0, 150-40, BT_SCREEN_WIDTH, 40)
 
 @interface JMSGFriendDetailViewController ()<UIAlertViewDelegate> {
     NSMutableArray *_titleArr;

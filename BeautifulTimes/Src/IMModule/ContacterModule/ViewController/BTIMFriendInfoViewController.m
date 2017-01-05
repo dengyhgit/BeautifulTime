@@ -10,7 +10,6 @@
 #import "BTUserInfoModel.h"
 #import "BTIMSettingCell.h"
 #import "BTIMSettingModel.h"
-#import "BTChatViewController.h"
 #import "BTIMEditUserInfoViewController.h"
 #import "BTIMNavViewController.h"
 

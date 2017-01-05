@@ -209,7 +209,6 @@
                         __strong __typeof(weakSelf)strongSelf = weakSelf;
                         [strongSelf refreshMemberGrid];
                     } else {
-                        LogInfo(@"addMembersFromUsernameArray fail with error %@",error);
                         [MBProgressHUD showMessage:@"添加成员失败" view:weakSelf.view];
                     }
                 }];
@@ -233,7 +232,6 @@
                         __strong __typeof(weakSelf)strongSelf = weakSelf;
                         [strongSelf refreshMemberGrid];
                     } else {
-                        LogInfo(@"addMembersFromUsernameArray fail with error %@",error);
                         [MBProgressHUD showMessage:@"添加成员失败" view:weakSelf.view];
                     }
                 }];
@@ -250,14 +248,12 @@
                 [deletedGroup exit:^(id resultObject, NSError *error) {
                     [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
                     if (error == nil) {
-                        LogInfo(@"推出群组成功");
                         [MBProgressHUD showMessage:@"推出群组成功" view:weakSelf.view];
                       
                         //SDK：删除群聊会话
                         [JMSGConversation deleteGroupConversationWithGroupId:deletedGroup.gid];
                         [self.navigationController popToViewController:self.sendMessageCtl.superViewController animated:YES];
                     } else {
-                        LogInfo(@"推出群组失败");
                         [MBProgressHUD showMessage:@"推出群组失败" view:weakSelf.view];
                     }
                 }];
@@ -312,7 +308,6 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kConversationChange object:resultObject];
             [strongSelf.navigationController popViewControllerAnimated:YES];
           } else {
-            LogInfo(@"creategroupconversation error with error : %@",error);
           }
         }];
       } else {
@@ -435,7 +430,6 @@
             [MBProgressHUD showMessage:@"删除成员成功！" view:self.view];
             [self refreshMemberGrid];
         } else {
-            LogInfo(@"JCHATGroupSettingCtl   fail to removeMembersFromUsernameArrary");
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [MBProgressHUD showMessage:@"删除成员错误！" view:self.view];
         }
@@ -477,13 +471,11 @@
                 cell.NoDisturbViewTitleLabel.text = @"消息免打扰";
                 
                 cell.didSelectNoDisturbBlock = ^(BOOL isNoDisturb){
-                    NSLog(@"\n\n==消息免打扰: %@ ==\n\n",isNoDisturb?@"开启":@"关闭");
+//                    NSLog(@"\n\n==消息免打扰: %@ ==\n\n",isNoDisturb?@"开启":@"关闭");
                     [user setIsNoDisturb:isNoDisturb handler:^(id resultObject, NSError *error) {
                         if (error) {
-                            LogInfo(@"\n\n消息免打扰error:\n%@\n\n",error);
                         }
                         else{
-                            LogInfo(@"\n\n消息免打扰resultObject:\n%@\n\n",resultObject);
                         }
                     }];
                 };
@@ -495,26 +487,21 @@
                 cell.NoDisturbViewTitleLabel.text = @"加入黑名单";
                 JMSGUser *user = _memberArr[0];//单聊只有一个对象
                 [cell.nodisturbSwitch setOn:user.isInBlacklist animated:YES];
-                LogInfo(@"%@",user.isInBlacklist ? @"yes" : @"no");
                 cell.didSelectNoDisturbBlock = ^(BOOL isNoDisturb){
-                    NSLog(@"\n\n==加入黑名单: %@ ==\n\n",isNoDisturb?@"加入":@"删除");
+//                    NSLog(@"\n\n==加入黑名单: %@ ==\n\n",isNoDisturb?@"加入":@"删除");
                     if (isNoDisturb) {
                         [JMSGUser addUsersToBlacklist:[NSArray arrayWithObject:user.username] appKey:user.appKey completionHandler:^(id resultObject, NSError *error) {
                             if (error) {
-                                LogInfo(@"\n\n加入黑名单error:\n%@\n\n",error);
                             }
                             else{
-                                LogInfo(@"\n\n加入黑名单resultObject:\n%@\n\n",resultObject);
                             }
                         }];
                     }
                     else{
                         [JMSGUser delUsersFromBlacklist:[NSArray arrayWithObject:user.username] appKey:user.appKey completionHandler:^(id resultObject, NSError *error) {
                             if (error) {
-                                LogInfo(@"\n\n删除黑名单error:\n%@\n\n",error);
                             }
                             else{
-                                LogInfo(@"\n\n删除黑名单resultObject:\n%@\n\n",resultObject);
                             }
                         }];
                     }
@@ -534,15 +521,13 @@
             {
                 [cell layoutNoDisturbView];
                 JMSGGroup *group = ((JMSGGroup *)(self.conversation.target));
-                LogInfo(@"%@",group.isNoDisturb ? @"yes" : @"no");
                 [cell.nodisturbSwitch setOn:group.isNoDisturb animated:YES];
                 cell.didSelectNoDisturbBlock = ^(BOOL isNoDisturb){
-                    NSLog(@"\n\n==消息免打扰: %@ ==\n\n",isNoDisturb?@"开启":@"关闭");                    [group setIsNoDisturb:isNoDisturb handler:^(id resultObject, NSError *error) {
+//                    NSLog(@"\n\n==消息免打扰: %@ ==\n\n",isNoDisturb?@"开启":@"关闭");
+                    [group setIsNoDisturb:isNoDisturb handler:^(id resultObject, NSError *error) {
                         if (error) {
-                            LogInfo(@"\n\n消息免打扰error:\n%@\n\n",error);
                         }
                         else{
-                            LogInfo(@"\n\n消息免打扰resultObject:\n%@\n\n",resultObject);
                         }
                     }];
                 };

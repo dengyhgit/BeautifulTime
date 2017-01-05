@@ -18,7 +18,6 @@
 #import "BTSettingViewController.h"
 #import "BTJournalListViewController.h"
 #import "BTUserLoginViewController.h"
-#import "BTIMHomePageViewController.h"
 #import "BTIMTabBarController.h"
 #import "AppDelegate.h"
 

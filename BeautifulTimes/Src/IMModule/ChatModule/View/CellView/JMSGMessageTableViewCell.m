@@ -106,8 +106,6 @@ static NSInteger const readViewRadius = 4;
                 } else {
                     [self.headView setImage:[UIImage imageNamed:@"headDefalt"]];
                 }
-            } else {
-                //        DDLogDebug(@"该头像是异步乱序的头像");
             }
         } else {
             [self.headView setImage:[UIImage imageNamed:@"headDefalt"]];
@@ -198,7 +196,6 @@ static NSInteger const readViewRadius = 4;
         return;
     }
     __weak __typeof(self)weakSelfUpload = self;
-    NSLog(@"the weakSelf upload  %@",weakSelfUpload);
     ((JMSGImageContent *)_model.message.content).uploadHandler = ^(float percent, NSString *msgId) {
         dispatch_async(dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelfUpload)strongSelfUpload = weakSelfUpload;
@@ -214,13 +211,11 @@ static NSInteger const readViewRadius = 4;
     BOOL isRecive = [_model.message isReceived];
     if (isRecive) {
         [_headView setFrame:CGRectMake(gapWidth, 0, headHeight, headHeight)];
-        //    [_messageContent setBubbleSide:isRecive];
         [_messageContent setFrame:CGRectMake(headHeight + 5, 0, contentSize.width, contentSize.height)];
         [_readView setFrame:CGRectMake(_messageContent.frame.origin.x + _messageContent.frame.size.width + 10, 5, 2 * readViewRadius, 2 * readViewRadius)];
         
     } else {
-        [_headView setFrame:CGRectMake(kApplicationWidth - headHeight - gapWidth, 0, headHeight, headHeight)];//头像位置
-        //    [_messageContent setBubbleSide:isRecive];
+        [_headView setFrame:CGRectMake(kApplicationWidth - headHeight - gapWidth, 0, headHeight, headHeight)];
         [_messageContent setFrame:CGRectMake(kApplicationWidth - headHeight - 5 - contentSize.width, 0, contentSize.width, contentSize.height)];
         [_readView setFrame:CGRectMake(_messageContent.frame.origin.x - 10, 5, 8, 8)];
     }
@@ -240,8 +235,6 @@ static NSInteger const readViewRadius = 4;
     }
     if (_model.message.contentType == kJMSGContentTypeImage) {
         if (self.model.message.status == kJMSGMessageStatusReceiveDownloadFailed) {
-            NSLog(@"正在下载缩略图");
-            LogInfo(@"Action");
             [_circleView startAnimating];
         } else {
             if (self.delegate && [(id<PictureDelegate>)self.delegate respondsToSelector:@selector(tapPicture:tapView:tableViewCell:)]) {
@@ -338,8 +331,8 @@ static NSInteger const readViewRadius = 4;
 }
 
 - (void)AlertInCurrentViewWithString:(NSString *)string {
-    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
-    [MBProgressHUD showMessage:string view:appDelegate.window];
+//    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+//    [MBProgressHUD showMessage:string view:appDelegate.window];
 }
 
 - (void)changeVoiceImage {
