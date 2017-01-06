@@ -1,25 +1,25 @@
 ld/
-*.pbxuser
+ios/*.pbxuser
 !default.pbxuser
-*.mode1v3
+ios/*.mode1v3
 !default.mode1v3
-*.mode2v3
+ios/*.mode2v3
 !default.mode2v3
-*.perspectivev3
+ios/*.perspectivev3
 !default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
+ios/xcuserdata
+ios/*.xccheckout
+ios/*.moved-aside
+ios/DerivedData
+ios/*.hmap
+ios/*.ipa
+ios/*.xcuserstate
 
-*.framework
+ios/*.framework
 
-PrivateInfo.plist
+ios/PrivateInfo.plist
 
-UMSocial/
+ios/UMSocial/
 
 # CocoaPods
 #
@@ -27,4 +27,6 @@ UMSocial/
 # you should judge for yourself, the pros and cons are mentioned at:
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 
-Pods/
+ios/Pods/
+
+node_modules/
