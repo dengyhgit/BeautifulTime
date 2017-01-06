@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>77FC5EF9-D6CB-43A2-ADAB-2A66435CF8DF</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F</key>
+		<string>https://github.com/dengyonghao/BeautifulTime.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BeatuifulTime.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dengyonghao/BeautifulTime.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BeatuifulTime</string>
+		</dict>
+	</array>
+</dict>
+</plist>

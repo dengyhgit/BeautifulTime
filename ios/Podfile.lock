@@ -1,0 +1,64 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
+  - JMessage (2.2.4)
+  - Masonry (1.0.2)
+  - React/Core (0.39.2):
+    - React/CSSLayout
+  - React/CSSLayout (0.39.2)
+  - React/RCTNetwork (0.39.2):
+    - React/Core
+  - React/RCTText (0.39.2):
+    - React/Core
+  - React/RCTWebSocket (0.39.2):
+    - React/Core
+  - RegexKitLite (4.0)
+  - SnapKit (3.0.2)
+  - YHPopupView (0.2.0)
+
+DEPENDENCIES:
+  - AFNetworking (~> 3.1.0)
+  - FMDB (~> 2.6.2)
+  - JMessage (~> 2.2.4)
+  - Masonry (~> 1.0.2)
+  - React/Core (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RegexKitLite (~> 4.0)
+  - SnapKit (~> 3.0.2)
+  - YHPopupView
+
+EXTERNAL SOURCES:
+  React:
+    :path: "../node_modules/react-native"
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  JMessage: f520035ab695306629ef8261923d9ee60fd69dc6
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  React: 8c26f75b7d3a78fd1ddad8ab0e40e1a3e945960a
+  RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
+  SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
+  YHPopupView: be92948e4a6da96ee6dbfa67d7f179fb44f5b0a3
+
+PODFILE CHECKSUM: cb0831e4287352e76fcb870a2410f5f12127c3a5
+
+COCOAPODS: 1.1.1

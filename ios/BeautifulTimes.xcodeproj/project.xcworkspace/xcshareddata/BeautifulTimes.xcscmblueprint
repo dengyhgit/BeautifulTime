@@ -1,0 +1,41 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "eccd39b4-39d4-47ab-bb89-e81f4763b8b8++3220" : {
+
+    },
+    "70ce54c1-d3da-4ce0-a9b5-98c0089efc3e++8260" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F" : 0,
+    "70ce54c1-d3da-4ce0-a9b5-98c0089efc3e++8260" : 0,
+    "eccd39b4-39d4-47ab-bb89-e81f4763b8b8++3220" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D6883096-DEC4-48C6-8966-334D48373339",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F" : "BeautifulTimes\/",
+    "70ce54c1-d3da-4ce0-a9b5-98c0089efc3e++8260" : "BeautifulTime\/BeautifulTimes\/Common\/3rdparty\/GCD\/",
+    "eccd39b4-39d4-47ab-bb89-e81f4763b8b8++3220" : "BeautifulTimes\/BeautifulTimes\/Common\/3rdparty\/XMPPFramework\/VoiceLib\/VoiceConvert\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BeautifulTimes",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BeautifulTimes.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/dengyonghao\/BeautifulTime.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "51E35232457D4AD6D50DFEEFCED3EA00ABC6B28F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/svn.baidu.com\/app\/search\/lbs-carlife",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "70ce54c1-d3da-4ce0-a9b5-98c0089efc3e++8260"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.0.240\/repository",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "eccd39b4-39d4-47ab-bb89-e81f4763b8b8++3220"
+    }
+  ]
+}

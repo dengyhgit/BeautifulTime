@@ -1,0 +1,32 @@
+//
+//  PrefixHeader.pch
+//  BeautifulTimes
+//
+//  Created by dengyonghao on 15/10/15.
+//  Copyright (c) 2015年 dengyonghao. All rights reserved.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_8_0
+#warning "This project uses features only available in iOS SDK 8.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "BTCommon.h"
+#import <Masonry/Masonry.h>
+#import "KFObjectExtension.h"
+#import "BTBaseViewController.h"
+#import "BTThemeManager.h"
+#import "UIView+BTAddition.h"
+#import "BTTool.h"
+#import "UIImage+Addition.h"
+#import <JMessage/JMessage.h>
+#import "MBProgressHUD+Add.h"
+#import "JMSGStringUtils.h"
+#import "JMSGViewUtil.h"
+#import <AFNetworking/AFNetworking.h>
+#import "BeautifulTimes-Swift.h"
+#endif
