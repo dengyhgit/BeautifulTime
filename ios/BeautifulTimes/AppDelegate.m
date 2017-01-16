@@ -176,7 +176,7 @@ static AppDelegate *singleton = nil;
     [self initPages];
 }
 
--(UIViewController*)currentTopVc
+- (UIViewController*)currentTopVc
 {
     if ([self.window.rootViewController isKindOfClass:[BTBaseNavigationController class]]) {
         BTBaseNavigationController* VC = (BTBaseNavigationController *)self.window.rootViewController;

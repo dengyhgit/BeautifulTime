@@ -20,6 +20,8 @@ target 'BeautifulTimes' do
     'RCTWebSocket',
   ]
 
+  pod 'CodePush', :path => ‘../node_modules/react-native-code-push'
+
   # Pods for BeautifulTimes
 
   target 'BeautifulTimesTests' do

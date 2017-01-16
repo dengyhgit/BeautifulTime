@@ -14,11 +14,21 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - CodePush (1.16.1):
+    - CodePush/Core (= 1.16.1)
+    - CodePush/SSZipArchive (= 1.16.1)
+    - React
+  - CodePush/Core (1.16.1):
+    - React
+  - CodePush/SSZipArchive (1.16.1):
+    - React
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
   - JMessage (2.2.4)
   - Masonry (1.0.2)
+  - React (0.39.2):
+    - React/Core (= 0.39.2)
   - React/Core (0.39.2):
     - React/CSSLayout
   - React/CSSLayout (0.39.2)
@@ -34,6 +44,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
+  - CodePush (from `../node_modules/react-native-code-push`)
   - FMDB (~> 2.6.2)
   - JMessage (~> 2.2.4)
   - Masonry (~> 1.0.2)
@@ -46,11 +57,14 @@ DEPENDENCIES:
   - YHPopupView
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
   React:
     :path: "../node_modules/react-native"
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  CodePush: f52903ecd1a17593a0c7c10aa55ecd3912d20e73
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   JMessage: f520035ab695306629ef8261923d9ee60fd69dc6
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
@@ -59,6 +73,6 @@ SPEC CHECKSUMS:
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
   YHPopupView: be92948e4a6da96ee6dbfa67d7f179fb44f5b0a3
 
-PODFILE CHECKSUM: cb0831e4287352e76fcb870a2410f5f12127c3a5
+PODFILE CHECKSUM: ef1b0ed97d638b5f3611a777fbc1b7facca5b877
 
 COCOAPODS: 1.1.1

@@ -5,25 +5,32 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableOpacity,
+  NativeModules
 } from 'react-native';
 
-class RNHighScores extends React.Component {
-  render() {
-    var contents = this.props["scores"].map(
-      score => <Text key={score.name}>{score.name}:{score.value}{"\n"}</Text>
-    );
-    return (
-      <View style={styles.container}>
-        <Text style={styles.highScoresTitle}>
-          2048 High Scores!
-        </Text>
-        <Text style={styles.scores}>
-          {contents}
-        </Text>
-      </View>
-    );
-  }
+import CodePush from "react-native-code-push";
+
+var BTRNManager = NativeModules.BTRNManager;
+
+class WelcomeView extends React.Component {
+    componentDidMount(){
+        CodePush.sync();
+    }
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.scores}>
+                    由于个人时间不足，需要更多的开发者来一起维护这一个应用，如果你想加入我们，可以联系我们，email：cbyniypeu@163.com，期待你的加入。
+                </Text>
+                <TouchableOpacity
+                    onPress={()=>BTRNManager.DismissViewController(true)}>
+                    <Text  style={styles.highScoresTitle}>返回</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -41,9 +48,9 @@ const styles = StyleSheet.create({
   scores: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5,
+    margin: 15,
   },
 });
 
 // 整体js模块的名称
-AppRegistry.registerComponent('RNHighScores', () => RNHighScores);
+AppRegistry.registerComponent('WelcomeView', () => WelcomeView);

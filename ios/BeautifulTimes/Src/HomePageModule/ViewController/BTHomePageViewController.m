@@ -20,6 +20,8 @@
 #import "BTUserLoginViewController.h"
 #import "BTIMTabBarController.h"
 #import "AppDelegate.h"
+#import "RCTRootView.h"
+#import "CodePush.h"
 
 static const CGFloat BUTTONWIDTH = 48;
 
@@ -75,8 +77,8 @@ static const CGFloat BUTTONWIDTH = 48;
 
     [self.setting mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(weakSelf.view);
-        make.width.mas_equalTo(@(48));
-        make.height.equalTo(@(48));
+        make.width.mas_equalTo(@(30));
+        make.height.equalTo(@(30));
         make.top.equalTo(weakSelf.view).offset(5);
     }];
     
@@ -197,9 +199,9 @@ static const CGFloat BUTTONWIDTH = 48;
     [[BTThemeManager getInstance] BTThemeImage:@"com_bl_album_press" completionHandler:^(UIImage *image) {
         [weakSelf.album setImage:image forState:UIControlStateHighlighted];
     }];
-    [[BTThemeManager getInstance] BTThemeImage:@"com_bl_home_setting" completionHandler:^(UIImage *image) {
-        [weakSelf.setting setImage:image forState:UIControlStateNormal];
-    }];
+//    [[BTThemeManager getInstance] BTThemeImage:@"com_bl_home_setting" completionHandler:^(UIImage *image) {
+//        [weakSelf.setting setImage:image forState:UIControlStateNormal];
+//    }];
 
 }
 
@@ -225,7 +227,6 @@ static const CGFloat BUTTONWIDTH = 48;
 - (void)addTimelineClick {
     BTAddTimelineViewController *vc = [[BTAddTimelineViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
 - (void)userCenterClick {
@@ -250,14 +251,28 @@ static const CGFloat BUTTONWIDTH = 48;
 }
 
 - (void)settingClick {
-    BTSettingViewController *vc = [[BTSettingViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    BTSettingViewController *vc = [[BTSettingViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
+    NSURL *jsCodeLocation;
+#ifdef DEBUG
+    jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios"];
+#else
+    jsCodeLocation = [CodePush bundleURL];
+#endif
+    RCTRootView *rootView =
+    [[RCTRootView alloc] initWithBundleURL : jsCodeLocation
+                         moduleName        : @"WelcomeView"
+                         initialProperties : nil
+                         launchOptions     : nil];
+    UIViewController *vc = [[UIViewController alloc] init];
+    vc.view = rootView;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (UIButton *)setting {
     if (!_setting) {
         _setting = [[UIButton alloc] init];
-        _setting.hidden = YES;
+        _setting.hidden = NO;
         [_setting addTarget:self action:@selector(settingClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _setting;

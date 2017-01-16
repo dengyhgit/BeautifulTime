@@ -683,6 +683,8 @@
 		B4B49BA51CB38B0B00B12CE5 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B49B901CB38B0B00B12CE5 /* UIScrollView+MJExtension.m */; };
 		B4B49BA61CB38B0B00B12CE5 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B49B921CB38B0B00B12CE5 /* UIScrollView+MJRefresh.m */; };
 		B4B49BA71CB38B0B00B12CE5 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B49B941CB38B0B00B12CE5 /* UIView+MJExtension.m */; };
+		B4B97C6D1E1F8FFD00343425 /* React.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4DD55481E0A27030062E335 /* React.framework */; };
+		B4B97C751E1F956700343425 /* CodePush.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4B97C741E1F956700343425 /* CodePush.framework */; };
 		B4D3DD5F1DE7190E0053F974 /* BTVersionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D3DD5D1DE7190E0053F974 /* BTVersionInfoViewController.m */; };
 		B4D3DD601DE7190E0053F974 /* BTVersionInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4D3DD5E1DE7190E0053F974 /* BTVersionInfoViewController.xib */; };
 		B4D3DD661DE72A830053F974 /* JMSGUpdatePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D3DD641DE72A830053F974 /* JMSGUpdatePasswordViewController.m */; };
@@ -692,9 +694,11 @@
 		B4D7E8C01DF46573006F963B /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D7E8BF1DF46573006F963B /* AFNetworking.framework */; };
 		B4D7E8C31DF46C8F006F963B /* BTWeatherHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D7E8C21DF46C8F006F963B /* BTWeatherHttp.m */; };
 		B4DFE39F1E1B45600002642C /* PrivateInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4DFE39E1E1B45600002642C /* PrivateInfo.plist */; };
+		B4E231DF1E28CB4800E1AFAE /* BTRNManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E231DE1E28CB4800E1AFAE /* BTRNManager.m */; };
 		B4E7064B1DF98D5B00234A82 /* FMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E7064A1DF98D5B00234A82 /* FMDB.framework */; };
 		B4E7064D1DF98D6000234A82 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E7064C1DF98D6000234A82 /* Masonry.framework */; };
 		B4E7064F1DF98DFC00234A82 /* Pods_BeautifulTimes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E7064E1DF98DFC00234A82 /* Pods_BeautifulTimes.framework */; };
+		B4F8B4761E274DC70039339D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = B4F8B4751E274DC70039339D /* main.jsbundle */; };
 		B4FABBD91C020E1500213AB7 /* BTSelectPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4FABBD81C020E1500213AB7 /* BTSelectPhotosViewController.m */; };
 		B4FABC0D1C02115500213AB7 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FABC0C1C02115500213AB7 /* libresolv.tbd */; };
 		B4FD274B1DE5C4F90082AA4E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B44D774D1CAAD60F007A613A /* libz.tbd */; };
@@ -1617,6 +1621,7 @@
 		B4B49B921CB38B0B00B12CE5 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		B4B49B931CB38B0B00B12CE5 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		B4B49B941CB38B0B00B12CE5 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		B4B97C741E1F956700343425 /* CodePush.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CodePush.framework; path = "Pods/../build/Debug-iphoneos/CodePush/CodePush.framework"; sourceTree = "<group>"; };
 		B4D3DD5C1DE7190E0053F974 /* BTVersionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTVersionInfoViewController.h; sourceTree = "<group>"; };
 		B4D3DD5D1DE7190E0053F974 /* BTVersionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTVersionInfoViewController.m; sourceTree = "<group>"; };
 		B4D3DD5E1DE7190E0053F974 /* BTVersionInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTVersionInfoViewController.xib; sourceTree = "<group>"; };
@@ -1632,9 +1637,12 @@
 		B4D7E8C21DF46C8F006F963B /* BTWeatherHttp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTWeatherHttp.m; sourceTree = "<group>"; };
 		B4DD55481E0A27030062E335 /* React.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = React.framework; path = "../../../Library/Developer/Xcode/DerivedData/BeautifulTimes-hjmeoxihjaaqzcetpxmghjsanosc/Build/Products/Debug-iphoneos/React/React.framework"; sourceTree = "<group>"; };
 		B4DFE39E1E1B45600002642C /* PrivateInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PrivateInfo.plist; sourceTree = SOURCE_ROOT; };
+		B4E231DD1E28CB4800E1AFAE /* BTRNManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTRNManager.h; sourceTree = "<group>"; };
+		B4E231DE1E28CB4800E1AFAE /* BTRNManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTRNManager.m; sourceTree = "<group>"; };
 		B4E7064A1DF98D5B00234A82 /* FMDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FMDB.framework; path = "../../Library/Developer/Xcode/DerivedData/BeautifulTimes-cniqlgvjfjwomjddvceffoohqpiv/Build/Products/Debug-iphonesimulator/FMDB/FMDB.framework"; sourceTree = "<group>"; };
 		B4E7064C1DF98D6000234A82 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = "../../Library/Developer/Xcode/DerivedData/BeautifulTimes-cniqlgvjfjwomjddvceffoohqpiv/Build/Products/Debug-iphonesimulator/Masonry/Masonry.framework"; sourceTree = "<group>"; };
 		B4E7064E1DF98DFC00234A82 /* Pods_BeautifulTimes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_BeautifulTimes.framework; path = "../../Library/Developer/Xcode/DerivedData/BeautifulTimes-cniqlgvjfjwomjddvceffoohqpiv/Build/Products/Debug-iphonesimulator/Pods_BeautifulTimes.framework"; sourceTree = "<group>"; };
+		B4F8B4751E274DC70039339D /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = SOURCE_ROOT; };
 		B4FABBD71C020E1500213AB7 /* BTSelectPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTSelectPhotosViewController.h; sourceTree = "<group>"; };
 		B4FABBD81C020E1500213AB7 /* BTSelectPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTSelectPhotosViewController.m; sourceTree = "<group>"; };
 		B4FABC0C1C02115500213AB7 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
@@ -1650,6 +1658,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4B97C751E1F956700343425 /* CodePush.framework in Frameworks */,
+				B4B97C6D1E1F8FFD00343425 /* React.framework in Frameworks */,
 				B40464FA1E094E0A00938AB3 /* CoreTelephony.framework in Frameworks */,
 				B40464F81E094D4B00938AB3 /* libc++.tbd in Frameworks */,
 				B40464F61E094D3400938AB3 /* SystemConfiguration.framework in Frameworks */,
@@ -1697,6 +1707,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		021EFE9261704F4D8BD1F276 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
 		650022BF1C1A6E9D0037D32E /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2243,6 +2260,7 @@
 				65E2D34D1BCFC966001E29A9 /* BeautifulTimesTests */,
 				65E2D32F1BCFC965001E29A9 /* Products */,
 				B00DF6274321C66461C3A11E /* Pods */,
+				021EFE9261704F4D8BD1F276 /* Libraries */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2277,6 +2295,7 @@
 		65E2D3311BCFC965001E29A9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B4F8B4751E274DC70039339D /* main.jsbundle */,
 				65E2D3321BCFC965001E29A9 /* Info.plist */,
 				65E2D3331BCFC965001E29A9 /* main.m */,
 				65E2D36F1BCFCDD4001E29A9 /* BeautifulTimes-Prefix.pch */,
@@ -2305,6 +2324,7 @@
 		65E2D3641BCFCCF2001E29A9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B4E231DC1E28CAB300E1AFAE /* RNTools */,
 				B4D7E8B31DF460FC006F963B /* BTNetworking */,
 				B49F3C461DE6CA40000958ED /* BTTools */,
 				B49F3C2C1DE6CA0D000958ED /* Gategory */,
@@ -2326,6 +2346,7 @@
 		65F312E11C15A69F00EA926C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B4B97C741E1F956700343425 /* CodePush.framework */,
 				B4DD55481E0A27030062E335 /* React.framework */,
 				B40464FD1E094F6000938AB3 /* ImageIO.framework */,
 				B40464FB1E094E7400938AB3 /* libstdc++.tbd */,
@@ -3547,6 +3568,15 @@
 			path = BTNetworking;
 			sourceTree = "<group>";
 		};
+		B4E231DC1E28CAB300E1AFAE /* RNTools */ = {
+			isa = PBXGroup;
+			children = (
+				B4E231DD1E28CB4800E1AFAE /* BTRNManager.h */,
+				B4E231DE1E28CB4800E1AFAE /* BTRNManager.m */,
+			);
+			path = RNTools;
+			sourceTree = "<group>";
+		};
 		B4FD27851DE5F8110082AA4E /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -3610,13 +3640,13 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = BT;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 800;
 				ORGANIZATIONNAME = dengyonghao;
 				TargetAttributes = {
 					65E2D32D1BCFC965001E29A9 = {
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = 9PF5ASX4BR;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -4047,6 +4077,7 @@
 				6517B49C1C50B4B00033B6A4 /* lxh_zaokuangzheng.png in Resources */,
 				B46DDF2D1E1CF9520026DD6A /* YH_KB_KeyboardHL@3x.png in Resources */,
 				B49F3DC11DE6D693000958ED /* login_01@3x.png in Resources */,
+				B4F8B4761E274DC70039339D /* main.jsbundle in Resources */,
 				6517B3D71C50B4AF0033B6A4 /* d_hehe@2x.png in Resources */,
 				B49F3DE81DE6D693000958ED /* menu_18@3x.png in Resources */,
 				6517B4781C50B4B00033B6A4 /* lxh_qiuguanzhu.png in Resources */,
@@ -4257,6 +4288,7 @@
 				B4D3DD5F1DE7190E0053F974 /* BTVersionInfoViewController.m in Sources */,
 				B45863B21DE6EF390045DDA0 /* MJPhotoToolbar.m in Sources */,
 				B46DDF3A1E1CF9520026DD6A /* BTPopupMessageView.m in Sources */,
+				B4E231DF1E28CB4800E1AFAE /* BTRNManager.m in Sources */,
 				B46DDF381E1CF9520026DD6A /* JMSGChatModel.m in Sources */,
 				B43BFA1E1DFD999700D8E3CD /* NSData+GIF.m in Sources */,
 				B46DDF161E1CF9520026DD6A /* HMEmotionGridView.m in Sources */,
@@ -4566,6 +4598,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/UMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/UMSocial/UMSocialUI",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/CodePush",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/BeautifulTimes/BeautifulTimes-Prefix.pch";
@@ -4581,6 +4614,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SocialLibraries/WeChat",
 					"$(PROJECT_DIR)/UMSocial/SocialLibraries/WeChat",
+					"\"$(SRCROOT)/最美时光\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -4618,6 +4652,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/UMSocial/UMSocialSDK",
 					"$(PROJECT_DIR)/UMSocial/UMSocialUI",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/CodePush",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/BeautifulTimes/BeautifulTimes-Prefix.pch";
@@ -4633,6 +4668,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SocialLibraries/WeChat",
 					"$(PROJECT_DIR)/UMSocial/SocialLibraries/WeChat",
+					"\"$(SRCROOT)/最美时光\"",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
